@@ -155,6 +155,131 @@ header h1 {
     min-height: 100px;
 }
 
+/* Dados Pessoais */
+.dados-pessoais-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    align-items: start;
+}
+
+.dados-form {
+    background-color: #f4f8fb;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.dados-form h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.perfil-coordenador-card {
+    background: linear-gradient(180deg, #ffffff 0%, #f5fbff 100%);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+}
+
+.perfil-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.badge {
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.perfil-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.perfil-photo-wrapper {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 6px solid rgba(74, 144, 164, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-photo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.perfil-info {
+    width: 100%;
+    text-align: center;
+}
+
+.perfil-info h3 {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    margin-bottom: 0.3rem;
+}
+
+.perfil-area {
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.perfil-escola {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.perfil-meta {
+    background-color: rgba(74, 144, 164, 0.08);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.perfil-meta p {
+    margin: 0.2rem 0;
+    color: #555;
+}
+
+.perfil-meta strong {
+    color: var(--primary-color);
+}
+
+.perfil-mensagem {
+    text-align: left;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.perfil-mensagem h4 {
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.perfil-mensagem p {
+    color: #555;
+    line-height: 1.6;
+}
+
 /* Buttons */
 .btn-primary,
 .btn-secondary {
@@ -1018,6 +1143,10 @@ html {
 
 .modo-professor .btn-primary:not(.btn-comentar) {
     display: none;
+}
+
+.modo-professor .coord-only {
+    display: none !important;
 }
 
 /* Diferenciação Visual entre Coordenador e Professor */

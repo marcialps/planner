@@ -61,27 +61,74 @@
     <main class="container">
         <!-- Seção Dados Pessoais -->
         <section id="dados-pessoais" class="section">
-            <h2>👤 Dados Pessoais</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="nome">Nome do Coordenador:</label>
-                    <input type="text" id="nome" placeholder="Digite seu nome completo">
+            <h2>👤 Perfil do Coordenador</h2>
+            <div class="dados-pessoais-grid">
+                <div id="form-dados-pessoais" class="dados-form">
+                    <h3>Atualize suas informações</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo:</label>
+                            <input type="text" id="nome" placeholder="Digite seu nome completo">
+                        </div>
+                        <div class="form-group">
+                            <label for="escola">Escola:</label>
+                            <input type="text" id="escola" placeholder="Nome da escola">
+                        </div>
+                        <div class="form-group">
+                            <label for="area-atuacao">Área de Atuação:</label>
+                            <input type="text" id="area-atuacao" placeholder="Ex: Coordenação Pedagógica - Ensino Fundamental">
+                        </div>
+                        <div class="form-group">
+                            <label for="tempo-experiencia">Tempo de Experiência:</label>
+                            <input type="text" id="tempo-experiencia" placeholder="Ex: 12 anos de atuação">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail:</label>
+                            <input type="email" id="email" placeholder="seu.email@exemplo.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefone">Telefone:</label>
+                            <input type="tel" id="telefone" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="foto-coordenador">Foto do Coordenador:</label>
+                            <input type="file" id="foto-coordenador" accept="image/*">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="mensagem-boasvindas">Mensagem de Apresentação:</label>
+                            <textarea id="mensagem-boasvindas" rows="4" placeholder="Compartilhe uma mensagem inspiradora ou apresentação para sua equipe."></textarea>
+                        </div>
+                    </div>
+                    <button class="btn-primary coord-only" onclick="salvarDadosPessoais()">Salvar Dados</button>
+                    <p class="info-text">Essas informações serão exibidas aos professores em "Conheça seu Coordenador".</p>
                 </div>
-                <div class="form-group">
-                    <label for="escola">Escola:</label>
-                    <input type="text" id="escola" placeholder="Nome da escola">
-                </div>
-                <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" placeholder="seu.email@exemplo.com">
-                </div>
-                <div class="form-group">
-                    <label for="telefone">Telefone:</label>
-                    <input type="tel" id="telefone" placeholder="(00) 00000-0000">
+
+                <div class="perfil-coordenador-card" id="perfil-coordenador-display">
+                    <div class="perfil-header">
+                        <span class="badge">Conheça seu Coordenador</span>
+                    </div>
+                    <div class="perfil-body">
+                        <div class="perfil-photo-wrapper">
+                            <img id="foto-preview" src="https://placehold.co/260x260?text=Coordenador" alt="Foto do Coordenador" />
+                        </div>
+                        <div class="perfil-info">
+                            <h3 id="display-nome">Nome do Coordenador</h3>
+                            <p class="perfil-area" id="display-area">Área de atuação</p>
+                            <p class="perfil-escola" id="display-escola">Rede Excellent</p>
+                            <div class="perfil-meta">
+                                <p><strong>Experiência:</strong> <span id="display-experiencia">--</span></p>
+                                <p><strong>E-mail:</strong> <span id="display-email">--</span></p>
+                                <p><strong>Telefone:</strong> <span id="display-telefone">--</span></p>
+                            </div>
+                            <div class="perfil-mensagem">
+                                <h4>Mensagem do Coordenador</h4>
+                                <p id="display-mensagem">Mensagem de boas-vindas e apresentação aparecerá aqui.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-comentar" onclick="abrirModalComentarios('dados-pessoais')" style="margin-top: 1rem;">💬 Deixe um recado</button>
                 </div>
             </div>
-            <button class="btn-primary" onclick="salvarDadosPessoais()">Salvar Dados</button>
-            <button class="btn-comentar" onclick="abrirModalComentarios('dados-pessoais')" style="margin-top: 1rem;">💬 Ver Comentários</button>
         </section>
 
         <!-- Seção Calendário Anual -->
@@ -95,7 +142,7 @@
             <div id="calendarios-mensais" class="calendarios-grid"></div>
             
             <div style="margin-top: 2rem; text-align: center;">
-                <button class="btn-primary" onclick="abrirModalAgendamento()" id="btn-novo-agendamento">➕ Novo Agendamento</button>
+                <button class="btn-primary coord-only" onclick="abrirModalAgendamento()" id="btn-novo-agendamento">➕ Novo Agendamento</button>
                 <button class="btn-comentar" onclick="abrirModalComentarios('calendario-anual')" style="margin-left: 1rem;">💬 Ver Comentários</button>
             </div>
             
@@ -175,7 +222,7 @@
                     <textarea id="proximos-passos" rows="3" placeholder="O que será feito a seguir"></textarea>
                 </div>
             </div>
-            <button class="btn-primary" onclick="salvarAcompanhamentoAluno()">Salvar Acompanhamento</button>
+            <button class="btn-primary coord-only" onclick="salvarAcompanhamentoAluno()">Salvar Acompanhamento</button>
             <div id="lista-acompanhamentos" class="acompanhamentos-lista"></div>
         </section>
 
@@ -207,7 +254,7 @@
                         <textarea id="ata-reuniao" rows="6" placeholder="Registre os principais pontos discutidos e decisões tomadas"></textarea>
                     </div>
                 </div>
-                <button class="btn-primary" onclick="salvarReuniao()">Salvar Reunião</button>
+                <button class="btn-primary coord-only" onclick="salvarReuniao()">Salvar Reunião</button>
                 <div id="lista-reunioes" class="reunioes-lista"></div>
             </div>
 
@@ -240,7 +287,7 @@
                         <textarea id="decisoes-pedagogicas" rows="5" placeholder="Registre as principais decisões pedagógicas do mês"></textarea>
                     </div>
                 </div>
-                <button class="btn-primary" onclick="salvarAvaliacaoMensal()">Salvar Avaliação</button>
+                <button class="btn-primary coord-only" onclick="salvarAvaliacaoMensal()">Salvar Avaliação</button>
                 <div id="lista-avaliacoes" class="avaliacoes-lista"></div>
             </div>
         </section>
@@ -286,7 +333,7 @@
             </div>
             <div style="margin-top: 1.5rem; text-align: right;">
                 <button class="btn-secondary" onclick="fecharModalAgendamento()">Cancelar</button>
-                <button class="btn-primary" onclick="salvarAgendamento()">Salvar Agendamento</button>
+                <button class="btn-primary coord-only" onclick="salvarAgendamento()">Salvar Agendamento</button>
             </div>
         </div>
     </div>

@@ -12,6 +12,30 @@ let perfilAtual = localStorage.getItem('perfilAtual') || 'coordenador'; // 'coor
 let eventoEditando = null; // Para edição de eventos
 let comentarioContexto = null; // Contexto para comentários (seção/evento)
 
+const fotoPlaceholder = 'https://placehold.co/260x260?text=Coordenador';
+const perfilPlaceholder = {
+    nome: 'Nome do Coordenador',
+    escola: 'Rede Excellent',
+    areaAtuacao: 'Coordenação Pedagógica',
+    tempoExperiencia: '--',
+    email: '--',
+    telefone: '--',
+    mensagem: 'Mensagem de boas-vindas e apresentação aparecerá aqui.',
+    foto: fotoPlaceholder
+};
+
+function isCoordenador() {
+    return perfilAtual === 'coordenador';
+}
+
+function exigirCoordenador(mensagem) {
+    if (!isCoordenador()) {
+        alert(mensagem || 'Somente coordenadores podem realizar esta ação.');
+        return false;
+    }
+    return true;
+}
+
 // Frases Inspiradoras Mensais (com referência cristã)
 const frasesInspiradoras = {
     0: "Em janeiro, renovamos nossa fé e confiança: 'Tudo posso naquele que me fortalece' (Filipenses 4:13).",
@@ -158,22 +182,77 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Funções de Dados Pessoais
 function salvarDadosPessoais() {
+    if (!exigirCoordenador('Somente coordenadores podem atualizar estes dados.')) return;
+    const dadosExistentes = JSON.parse(localStorage.getItem('dadosPessoais') || '{}');
     const dados = {
         nome: document.getElementById('nome').value,
         escola: document.getElementById('escola').value,
+        areaAtuacao: document.getElementById('area-atuacao').value,
+        tempoExperiencia: document.getElementById('tempo-experiencia').value,
         email: document.getElementById('email').value,
-        telefone: document.getElementById('telefone').value
+        telefone: document.getElementById('telefone').value,
+        mensagem: document.getElementById('mensagem-boasvindas').value,
+        foto: dadosExistentes.foto || ''
     };
+    
+    const arquivoFoto = document.getElementById('foto-coordenador').files[0];
+    if (arquivoFoto) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            dados.foto = event.target.result;
+            salvarDadosPessoaisStorage(dados);
+        };
+        reader.readAsDataURL(arquivoFoto);
+    } else {
+        salvarDadosPessoaisStorage(dados);
+    }
+}
+
+function salvarDadosPessoaisStorage(dados) {
     localStorage.setItem('dadosPessoais', JSON.stringify(dados));
+    const inputFoto = document.getElementById('foto-coordenador');
+    if (inputFoto) inputFoto.value = '';
+    atualizarPerfilDisplay(dados);
     alert('Dados pessoais salvos com sucesso!');
 }
 
 function carregarDadosPessoais() {
     const dados = JSON.parse(localStorage.getItem('dadosPessoais') || '{}');
-    if (dados.nome) document.getElementById('nome').value = dados.nome;
-    if (dados.escola) document.getElementById('escola').value = dados.escola;
-    if (dados.email) document.getElementById('email').value = dados.email;
-    if (dados.telefone) document.getElementById('telefone').value = dados.telefone;
+    if (document.getElementById('nome')) document.getElementById('nome').value = dados.nome || '';
+    if (document.getElementById('escola')) document.getElementById('escola').value = dados.escola || '';
+    if (document.getElementById('area-atuacao')) document.getElementById('area-atuacao').value = dados.areaAtuacao || '';
+    if (document.getElementById('tempo-experiencia')) document.getElementById('tempo-experiencia').value = dados.tempoExperiencia || '';
+    if (document.getElementById('email')) document.getElementById('email').value = dados.email || '';
+    if (document.getElementById('telefone')) document.getElementById('telefone').value = dados.telefone || '';
+    if (document.getElementById('mensagem-boasvindas')) document.getElementById('mensagem-boasvindas').value = dados.mensagem || '';
+    atualizarPerfilDisplay(dados);
+}
+
+function atualizarPerfilDisplay(dados = {}) {
+    const info = {
+        ...perfilPlaceholder,
+        ...dados
+    };
+    
+    const fotoEl = document.getElementById('foto-preview');
+    if (fotoEl) {
+        fotoEl.src = info.foto || fotoPlaceholder;
+        fotoEl.alt = info.nome || 'Foto do Coordenador';
+    }
+    
+    const map = [
+        ['display-nome', info.nome || perfilPlaceholder.nome],
+        ['display-area', info.areaAtuacao || perfilPlaceholder.areaAtuacao],
+        ['display-escola', info.escola || perfilPlaceholder.escola],
+        ['display-experiencia', info.tempoExperiencia || perfilPlaceholder.tempoExperiencia],
+        ['display-email', info.email || perfilPlaceholder.email],
+        ['display-telefone', info.telefone || perfilPlaceholder.telefone],
+        ['display-mensagem', info.mensagem || perfilPlaceholder.mensagem]
+    ];
+    map.forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value || '--';
+    });
 }
 
 // Funções de Calendário Anual
@@ -310,13 +389,17 @@ function gerarAniversarios() {
         
         // Botão para adicionar novo
         const btnAdd = document.createElement('button');
-        btnAdd.className = 'btn-secondary';
+        btnAdd.className = 'btn-secondary coord-only btn-add-aniversario';
         btnAdd.textContent = '+ Adicionar Aniversariante';
         btnAdd.onclick = () => adicionarAniversario(index, div);
         div.appendChild(btnAdd);
         
         container.appendChild(div);
     });
+    
+    if (!isCoordenador()) {
+        aplicarRestricoesProfessor();
+    }
 }
 
 function criarItemAniversario(nome, mesIndex, itemIndex) {
@@ -330,7 +413,7 @@ function criarItemAniversario(nome, mesIndex, itemIndex) {
     input.onchange = () => salvarAniversario(mesIndex, itemIndex, input.value);
     
     const btnRemover = document.createElement('button');
-    btnRemover.className = 'btn-secondary';
+    btnRemover.className = 'btn-secondary coord-only';
     btnRemover.textContent = 'Remover';
     btnRemover.style.marginTop = '0.5rem';
     btnRemover.onclick = () => removerAniversario(mesIndex, itemIndex);
@@ -342,22 +425,25 @@ function criarItemAniversario(nome, mesIndex, itemIndex) {
 }
 
 function adicionarAniversario(mesIndex, container) {
+    if (!exigirCoordenador()) return;
     const aniversarios = JSON.parse(localStorage.getItem(`aniversarios_${mesIndex}`) || '[]');
     aniversarios.push('');
     localStorage.setItem(`aniversarios_${mesIndex}`, JSON.stringify(aniversarios));
     
     const item = criarItemAniversario('', mesIndex, aniversarios.length - 1);
-    const btnAdd = container.querySelector('button');
+    const btnAdd = container.querySelector('.btn-add-aniversario');
     container.insertBefore(item, btnAdd);
 }
 
 function salvarAniversario(mesIndex, itemIndex, nome) {
+    if (!exigirCoordenador()) return;
     const aniversarios = JSON.parse(localStorage.getItem(`aniversarios_${mesIndex}`) || '[]');
     aniversarios[itemIndex] = nome;
     localStorage.setItem(`aniversarios_${mesIndex}`, JSON.stringify(aniversarios));
 }
 
 function removerAniversario(mesIndex, itemIndex) {
+    if (!exigirCoordenador()) return;
     const aniversarios = JSON.parse(localStorage.getItem(`aniversarios_${mesIndex}`) || '[]');
     aniversarios.splice(itemIndex, 1);
     localStorage.setItem(`aniversarios_${mesIndex}`, JSON.stringify(aniversarios));
@@ -401,11 +487,16 @@ function carregarPlannerMensal() {
             <textarea id="metas" placeholder="Desafios e metas pedagógicas específicas do período">${dados.metas || ''}</textarea>
         </div>
         
-        <button class="btn-primary" onclick="salvarPlannerMensal(${mesIndex})">Salvar Planner Mensal</button>
+        <button class="btn-primary coord-only" onclick="salvarPlannerMensal(${mesIndex})">Salvar Planner Mensal</button>
     `;
+    
+    if (!isCoordenador()) {
+        aplicarRestricoesProfessor();
+    }
 }
 
 function salvarPlannerMensal(mesIndex) {
+    if (!exigirCoordenador()) return;
     const dados = {
         visaoGeral: document.getElementById('visao-geral').value,
         atividades: document.getElementById('atividades').value,
@@ -451,12 +542,17 @@ function carregarPlanejamentoSemanal() {
     
     container.innerHTML += `
         <div style="grid-column: 1 / -1;">
-            <button class="btn-primary" onclick="salvarPlanejamentoSemanal()">Salvar Planejamento Semanal</button>
+            <button class="btn-primary coord-only" onclick="salvarPlanejamentoSemanal()">Salvar Planejamento Semanal</button>
         </div>
     `;
+    
+    if (!isCoordenador()) {
+        aplicarRestricoesProfessor();
+    }
 }
 
 function salvarPlanejamentoSemanal() {
+    if (!exigirCoordenador()) return;
     const semanaInput = document.getElementById('semana-planner').value;
     const [ano, semana] = semanaInput.split('-W').map(Number);
     
@@ -474,6 +570,7 @@ function salvarPlanejamentoSemanal() {
 
 // Funções de Planejamento Diário
 function salvarAcompanhamentoAluno() {
+    if (!exigirCoordenador()) return;
     const acompanhamento = {
         data: document.getElementById('data-acompanhamento').value,
         aluno: document.getElementById('aluno-nome').value,
@@ -511,6 +608,9 @@ function carregarAcompanhamentos() {
     
     if (acompanhamentos.length === 0) {
         container.innerHTML = '<p class="info-text">Nenhum acompanhamento registrado ainda.</p>';
+        if (!isCoordenador()) {
+            aplicarRestricoesProfessor();
+        }
         return;
     }
     
@@ -528,14 +628,19 @@ function carregarAcompanhamentos() {
                 <p><strong>Ações Tomadas:</strong> ${acomp.acoes}</p>
                 <p><strong>Próximos Passos:</strong> ${acomp.proximosPassos}</p>
             </div>
-            <button class="btn-secondary" onclick="removerAcompanhamento(${acompanhamentos.length - 1 - index})">Remover</button>
+            <button class="btn-secondary coord-only" onclick="removerAcompanhamento(${acompanhamentos.length - 1 - index})">Remover</button>
         `;
         
         container.appendChild(div);
     });
+    
+    if (!isCoordenador()) {
+        aplicarRestricoesProfessor();
+    }
 }
 
 function removerAcompanhamento(index) {
+    if (!exigirCoordenador()) return;
     if (confirm('Deseja realmente remover este acompanhamento?')) {
         const acompanhamentos = JSON.parse(localStorage.getItem('acompanhamentos_alunos') || '[]');
         acompanhamentos.splice(index, 1);
@@ -556,6 +661,7 @@ function abrirTab(tabName, buttonElement) {
 }
 
 function salvarReuniao() {
+    if (!exigirCoordenador()) return;
     const reuniao = {
         data: document.getElementById('data-reuniao').value,
         participantes: document.getElementById('participantes').value,
@@ -589,6 +695,9 @@ function carregarReunioes() {
     
     if (reunioes.length === 0) {
         container.innerHTML = '<p class="info-text">Nenhuma reunião registrada ainda.</p>';
+        if (!isCoordenador()) {
+            aplicarRestricoesProfessor();
+        }
         return;
     }
     
@@ -605,14 +714,19 @@ function carregarReunioes() {
                 <p><strong>Pauta:</strong> ${reuniao.pauta}</p>
                 <p><strong>Ata:</strong> ${reuniao.ata}</p>
             </div>
-            <button class="btn-secondary" onclick="removerReuniao(${reunioes.length - 1 - index})">Remover</button>
+            <button class="btn-secondary coord-only" onclick="removerReuniao(${reunioes.length - 1 - index})">Remover</button>
         `;
         
         container.appendChild(div);
     });
+    
+    if (!isCoordenador()) {
+        aplicarRestricoesProfessor();
+    }
 }
 
 function removerReuniao(index) {
+    if (!exigirCoordenador()) return;
     if (confirm('Deseja realmente remover esta reunião?')) {
         const reunioes = JSON.parse(localStorage.getItem('reunioes_pedagogicas') || '[]');
         reunioes.splice(index, 1);
@@ -622,6 +736,7 @@ function removerReuniao(index) {
 }
 
 function salvarAvaliacaoMensal() {
+    if (!exigirCoordenador()) return;
     const avaliacao = {
         mes: parseInt(document.getElementById('mes-avaliacao').value),
         notas: document.getElementById('notas-desempenho').value,
@@ -654,6 +769,9 @@ function carregarAvaliacoes() {
     
     if (avaliacoes.length === 0) {
         container.innerHTML = '<p class="info-text">Nenhuma avaliação mensal registrada ainda.</p>';
+        if (!isCoordenador()) {
+            aplicarRestricoesProfessor();
+        }
         return;
     }
     
@@ -669,14 +787,19 @@ function carregarAvaliacoes() {
                 <p><strong>Notas sobre Desempenho:</strong> ${avaliacao.notas}</p>
                 <p><strong>Decisões Pedagógicas Tomadas:</strong> ${avaliacao.decisoes}</p>
             </div>
-            <button class="btn-secondary" onclick="editarAvaliacao(${avaliacao.mes})">Editar</button>
+            <button class="btn-secondary coord-only" onclick="editarAvaliacao(${avaliacao.mes})">Editar</button>
         `;
         
         container.appendChild(div);
     });
+    
+    if (!isCoordenador()) {
+        aplicarRestricoesProfessor();
+    }
 }
 
 function editarAvaliacao(mes) {
+    if (!exigirCoordenador()) return;
     const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes_mensais') || '[]');
     const avaliacao = avaliacoes.find(a => a.mes === mes);
     
@@ -801,30 +924,34 @@ function atualizarInterfacePorPerfil() {
     }
     
     const body = document.body;
+    const formDados = document.getElementById('form-dados-pessoais');
     if (perfilAtual === 'professor') {
         body.classList.add('modo-professor');
-        // Tornar campos readonly
-        document.querySelectorAll('input, textarea, select').forEach(campo => {
+        if (formDados) formDados.style.display = 'none';
+        
+        document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(campo => {
             if (!campo.id.includes('comentario') && !campo.id.includes('novo-comentario')) {
                 campo.setAttribute('readonly', 'readonly');
             }
         });
-        // Ocultar botão de novo agendamento
+        document.querySelectorAll('input[type="file"]').forEach(campo => campo.disabled = true);
+        
         const btnNovoAgendamento = document.getElementById('btn-novo-agendamento');
-        if (btnNovoAgendamento) {
-            btnNovoAgendamento.style.display = 'none';
-        }
+        if (btnNovoAgendamento) btnNovoAgendamento.style.display = 'none';
     } else {
         body.classList.remove('modo-professor');
-        document.querySelectorAll('input[readonly], textarea[readonly], select[readonly]').forEach(campo => {
+        if (formDados) formDados.style.display = 'block';
+        
+        document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(campo => {
             campo.removeAttribute('readonly');
         });
-        // Mostrar botão de novo agendamento
+        document.querySelectorAll('input[type="file"]').forEach(campo => campo.disabled = false);
+        
         const btnNovoAgendamento = document.getElementById('btn-novo-agendamento');
-        if (btnNovoAgendamento) {
-            btnNovoAgendamento.style.display = 'inline-block';
-        }
+        if (btnNovoAgendamento) btnNovoAgendamento.style.display = 'inline-block';
     }
+    
+    aplicarRestricoesProfessor();
 }
 
 // ========== FUNÇÕES DE AGENDAMENTOS ==========
@@ -864,6 +991,7 @@ function fecharModalAgendamento() {
 }
 
 function salvarAgendamento() {
+    if (!exigirCoordenador()) return;
     const evento = {
         id: eventoEditando ? eventoEditando.id : Date.now(),
         data: document.getElementById('evento-data').value,
@@ -1111,5 +1239,18 @@ function adicionarComentario() {
 function formatarDataHora(isoString) {
     const data = new Date(isoString);
     return data.toLocaleString('pt-BR');
+}
+
+function aplicarRestricoesProfessor() {
+    if (!isCoordenador()) {
+        document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(campo => {
+            if (!campo.id.includes('comentario') && !campo.id.includes('novo-comentario')) {
+                campo.setAttribute('readonly', 'readonly');
+            }
+        });
+        document.querySelectorAll('input[type="file"]').forEach(campo => {
+            campo.disabled = true;
+        });
+    }
 }
 
