@@ -361,6 +361,53 @@
         </div>
     </div>
 
+    <!-- Modal de Datas Comemorativas -->
+    <div id="modal-data-comemorativa" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📌 Evento do Calendário</h3>
+                <button class="close-modal" onclick="fecharModalDataComemorativa()">&times;</button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Mês:</label>
+                    <input type="text" id="mes-evento-label" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="data-dia">Dia:</label>
+                    <input type="number" id="data-dia" min="1" max="31" placeholder="Ex: 15">
+                </div>
+                <div class="form-group full-width">
+                    <label for="data-descricao">Descrição:</label>
+                    <textarea id="data-descricao" rows="3" placeholder="Ex: Dia da Família na Escola"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tipo-data">Tipo:</label>
+                    <select id="tipo-data">
+                        <option value="nacional">Nacional</option>
+                        <option value="regional">Regional</option>
+                        <option value="estadual">Estadual</option>
+                        <option value="municipal">Municipal</option>
+                        <option value="escolar">Da Escola</option>
+                        <option value="religioso">Religioso</option>
+                        <option value="cultural">Cultural</option>
+                        <option value="comemorativo" selected>Comemorativo</option>
+                        <option value="personalizado">Personalizado</option>
+                        <option value="feriado">Feriado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cor-data">Cor do tipo:</label>
+                    <input type="color" id="cor-data" value="#f4a261">
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <button class="btn-secondary" onclick="fecharModalDataComemorativa()">Cancelar</button>
+                <button class="btn-primary" onclick="salvarDataComemorativa()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Overlay para painel de eventos -->
     <div id="overlay-eventos" class="overlay" onclick="fecharPainelEventos()"></div>
 

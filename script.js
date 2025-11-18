@@ -53,100 +53,98 @@ const frasesInspiradoras = {
 };
 
 // Datas Comemorativas 2026
-const datasComemorativas = {
+const datasComemorativasDefault = {
     0: [ // Janeiro
         {dia: 1, descricao: "Ano Novo", tipo: "feriado"},
-        {dia: 6, descricao: "Dia de Reis", tipo: "comemorativo"},
-        {dia: 4, descricao: "Dia do Braille", tipo: "comemorativo"},
         {dia: 15, descricao: "Dia do Professor", tipo: "comemorativo"}
     ],
     1: [ // Fevereiro
-        {dia: 2, descricao: "Dia de Iemanjá", tipo: "comemorativo"},
         {dia: 8, descricao: "Carnaval", tipo: "comemorativo"},
-        {dia: 9, descricao: "Carnaval", tipo: "comemorativo"},
-        {dia: 10, descricao: "Quarta-feira de Cinzas", tipo: "comemorativo"},
-        {dia: 14, descricao: "Dia dos Namorados", tipo: "comemorativo"},
         {dia: 21, descricao: "Dia Internacional da Língua Materna", tipo: "comemorativo"}
     ],
     2: [ // Março
-        {dia: 8, descricao: "Dia Internacional da Mulher", tipo: "comemorativo"},
-        {dia: 14, descricao: "Dia Nacional da Poesia", tipo: "comemorativo"},
         {dia: 15, descricao: "Dia da Escola", tipo: "comemorativo"},
-        {dia: 20, descricao: "Dia Internacional da Felicidade", tipo: "comemorativo"},
-        {dia: 21, descricao: "Dia Internacional contra a Discriminação Racial", tipo: "comemorativo"},
-        {dia: 25, descricao: "Dia Nacional do Orgulho Gay", tipo: "comemorativo"},
         {dia: 27, descricao: "Dia do Teatro", tipo: "comemorativo"}
     ],
     3: [ // Abril
         {dia: 1, descricao: "Dia da Mentira", tipo: "comemorativo"},
-        {dia: 2, descricao: "Dia Mundial de Conscientização do Autismo", tipo: "comemorativo"},
-        {dia: 7, descricao: "Dia Mundial da Saúde", tipo: "comemorativo"},
-        {dia: 18, descricao: "Sexta-feira Santa", tipo: "feriado"},
-        {dia: 19, descricao: "Páscoa", tipo: "feriado"},
-        {dia: 21, descricao: "Tiradentes", tipo: "feriado"},
-        {dia: 22, descricao: "Dia da Terra", tipo: "comemorativo"},
         {dia: 23, descricao: "Dia Mundial do Livro", tipo: "comemorativo"}
     ],
     4: [ // Maio
         {dia: 1, descricao: "Dia do Trabalhador", tipo: "feriado"},
-        {dia: 5, descricao: "Dia Nacional das Comunicações", tipo: "comemorativo"},
-        {dia: 8, descricao: "Dia das Mães", tipo: "comemorativo"},
-        {dia: 13, descricao: "Abolição da Escravatura", tipo: "comemorativo"},
-        {dia: 15, descricao: "Dia do Assistente Social", tipo: "comemorativo"},
-        {dia: 18, descricao: "Dia Internacional dos Museus", tipo: "comemorativo"},
         {dia: 25, descricao: "Dia do Trabalhador Rural", tipo: "comemorativo"}
     ],
     5: [ // Junho
         {dia: 5, descricao: "Dia Mundial do Meio Ambiente", tipo: "comemorativo"},
-        {dia: 12, descricao: "Dia dos Namorados (Brasil)", tipo: "comemorativo"},
-        {dia: 19, descricao: "Dia do Cinema Brasileiro", tipo: "comemorativo"},
-        {dia: 24, descricao: "Festa Junina - São João", tipo: "comemorativo"},
         {dia: 29, descricao: "Dia de São Pedro", tipo: "comemorativo"}
     ],
     6: [ // Julho
-        {dia: 2, descricao: "Dia do Bombeiro", tipo: "comemorativo"},
-        {dia: 8, descricao: "Dia do Panificador", tipo: "comemorativo"},
         {dia: 20, descricao: "Dia do Amigo", tipo: "comemorativo"},
-        {dia: 25, descricao: "Dia do Escritor", tipo: "comemorativo"},
         {dia: 26, descricao: "Dia dos Avós", tipo: "comemorativo"}
     ],
     7: [ // Agosto
         {dia: 11, descricao: "Dia do Estudante", tipo: "comemorativo"},
-        {dia: 12, descricao: "Dia Nacional das Artes", tipo: "comemorativo"},
-        {dia: 15, descricao: "Dia dos Pais", tipo: "comemorativo"},
-        {dia: 22, descricao: "Dia do Folclore", tipo: "comemorativo"},
         {dia: 25, descricao: "Dia do Soldado", tipo: "comemorativo"}
     ],
     8: [ // Setembro
-        {dia: 5, descricao: "Dia da Amazônia", tipo: "comemorativo"},
         {dia: 7, descricao: "Independência do Brasil", tipo: "feriado"},
-        {dia: 8, descricao: "Dia Internacional da Alfabetização", tipo: "comemorativo"},
-        {dia: 21, descricao: "Dia da Árvore", tipo: "comemorativo"},
         {dia: 22, descricao: "Dia da Juventude", tipo: "comemorativo"}
     ],
     9: [ // Outubro
-        {dia: 4, descricao: "Dia de São Francisco", tipo: "comemorativo"},
-        {dia: 5, descricao: "Dia Mundial dos Professores", tipo: "comemorativo"},
-        {dia: 12, descricao: "Nossa Senhora Aparecida", tipo: "feriado"},
         {dia: 15, descricao: "Dia do Professor", tipo: "comemorativo"},
-        {dia: 16, descricao: "Dia Mundial da Alimentação", tipo: "comemorativo"},
-        {dia: 31, descricao: "Halloween", tipo: "comemorativo"}
+        {dia: 12, descricao: "Dia da Criança", tipo: "comemorativo"}
     ],
     10: [ // Novembro
         {dia: 2, descricao: "Finados", tipo: "feriado"},
-        {dia: 15, descricao: "Proclamação da República", tipo: "feriado"},
-        {dia: 19, descricao: "Dia da Bandeira", tipo: "comemorativo"},
-        {dia: 20, descricao: "Dia da Consciência Negra", tipo: "comemorativo"},
         {dia: 25, descricao: "Dia Internacional pela Eliminação da Violência contra a Mulher", tipo: "comemorativo"}
     ],
     11: [ // Dezembro
-        {dia: 1, descricao: "Dia Mundial de Combate à AIDS", tipo: "comemorativo"},
         {dia: 8, descricao: "Dia da Família", tipo: "comemorativo"},
-        {dia: 10, descricao: "Dia Internacional dos Direitos Humanos", tipo: "comemorativo"},
         {dia: 25, descricao: "Natal", tipo: "feriado"},
         {dia: 31, descricao: "Ano Novo", tipo: "comemorativo"}
     ]
 };
+
+const tipoEventoCores = {
+    nacional: '#c62828',
+    regional: '#d84315',
+    estadual: '#2e7d32',
+    municipal: '#558b2f',
+    escolar: '#8e24aa',
+    religioso: '#ad1457',
+    cultural: '#00838f',
+    comemorativo: '#f4a261',
+    feriado: '#c62828',
+    personalizado: '#4a4a4a'
+};
+
+let datasComemorativasData = null;
+let dataComemorativaContext = null;
+
+function obterDatasComemorativas() {
+    if (!datasComemorativasData) {
+        const armazenado = localStorage.getItem('datas_comemorativas');
+        if (armazenado) {
+            datasComemorativasData = JSON.parse(armazenado);
+        } else {
+            datasComemorativasData = JSON.parse(JSON.stringify(datasComemorativasDefault));
+            salvarDatasComemorativas();
+        }
+    }
+    return datasComemorativasData;
+}
+
+function salvarDatasComemorativas() {
+    if (datasComemorativasData) {
+        localStorage.setItem('datas_comemorativas', JSON.stringify(datasComemorativasData));
+    }
+}
+
+function obterCorPorTipo(tipo) {
+    if (!tipo) return '#f4a261';
+    const chave = tipo.toLowerCase();
+    return tipoEventoCores[chave] || '#f4a261';
+}
 
 // Feriados Nacionais 2026
 const feriados2026 = {
@@ -177,6 +175,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const semanaInput = `${ano}-W${String(semana).padStart(2, '0')}`;
     if (document.getElementById('semana-planner')) {
         document.getElementById('semana-planner').value = semanaInput;
+    }
+
+    const tipoEventoSelect = document.getElementById('tipo-data');
+    if (tipoEventoSelect) {
+        tipoEventoSelect.addEventListener('change', atualizarCorTipoEvento);
     }
 });
 
@@ -304,6 +307,7 @@ function criarCalendarioMes(mes, ano) {
     
     // Dias do mês
     const hoje = new Date();
+    const datasMes = obterDatasComemorativas()[mes] || [];
     for (let dia = 1; dia <= diasNoMes; dia++) {
         const dayDiv = document.createElement('div');
         dayDiv.className = 'calendar-day';
@@ -348,11 +352,9 @@ function criarCalendarioMes(mes, ano) {
         }
         
         // Verificar se há data comemorativa
-        if (datasComemorativas[mes]) {
-            const comemorativa = datasComemorativas[mes].find(d => d.dia === dia);
-            if (comemorativa) {
-                dayDiv.title = (dayDiv.title ? dayDiv.title + ' | ' : '') + comemorativa.descricao;
-            }
+        const comemorativa = datasMes.find(d => d.dia === dia);
+        if (comemorativa) {
+            dayDiv.title = (dayDiv.title ? dayDiv.title + ' | ' : '') + comemorativa.descricao;
         }
         
         // Adicionar clique no dia
@@ -817,6 +819,8 @@ function editarAvaliacao(mes) {
 function gerarDatasComemorativas() {
     const container = document.getElementById('datas-comemorativas-content');
     container.innerHTML = '';
+    const datas = obterDatasComemorativas();
+    let atualizou = false;
     
     meses.forEach((mesNome, mesIndex) => {
         const div = document.createElement('div');
@@ -826,15 +830,45 @@ function gerarDatasComemorativas() {
         h3.textContent = mesNome;
         div.appendChild(h3);
         
-        if (datasComemorativas[mesIndex] && datasComemorativas[mesIndex].length > 0) {
-            datasComemorativas[mesIndex].forEach(data => {
+        const eventos = (datas[mesIndex] || []).sort((a, b) => a.dia - b.dia);
+        
+        if (eventos.length > 0) {
+            eventos.forEach((evento, eventoIndex) => {
+                if (!evento.cor) {
+                    evento.cor = obterCorPorTipo(evento.tipo);
+                    atualizou = true;
+                }
+                
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `data-item ${data.tipo === 'feriado' ? 'feriado' : ''}`;
+                itemDiv.className = 'data-item';
+                itemDiv.style.borderLeftColor = evento.cor;
                 
                 itemDiv.innerHTML = `
-                    <div class="data">${String(data.dia).padStart(2, '0')}/${String(mesIndex + 1).padStart(2, '0')}</div>
-                    <div class="descricao">${data.descricao}</div>
+                    <div class="data-linha">
+                        <span class="data">${String(evento.dia).padStart(2, '0')}/${String(mesIndex + 1).padStart(2, '0')}</span>
+                        <span class="data-badge" style="background-color: ${evento.cor};">${formatarTipoEventoLabel(evento.tipo)}</span>
+                    </div>
+                    <div class="descricao">${evento.descricao}</div>
                 `;
+                
+                if (isCoordenador()) {
+                    const actions = document.createElement('div');
+                    actions.className = 'data-actions coord-only';
+                    
+                    const btnEdit = document.createElement('button');
+                    btnEdit.className = 'btn-small btn-edit';
+                    btnEdit.textContent = 'Editar';
+                    btnEdit.onclick = () => abrirModalDataComemorativa(mesIndex, eventoIndex);
+                    
+                    const btnDelete = document.createElement('button');
+                    btnDelete.className = 'btn-small btn-delete';
+                    btnDelete.textContent = 'Excluir';
+                    btnDelete.onclick = () => removerDataComemorativa(mesIndex, eventoIndex);
+                    
+                    actions.appendChild(btnEdit);
+                    actions.appendChild(btnDelete);
+                    itemDiv.appendChild(actions);
+                }
                 
                 div.appendChild(itemDiv);
             });
@@ -845,8 +879,106 @@ function gerarDatasComemorativas() {
             div.appendChild(empty);
         }
         
+        if (isCoordenador()) {
+            const btnAdd = document.createElement('button');
+            btnAdd.className = 'btn-secondary coord-only';
+            btnAdd.textContent = '+ Adicionar Data';
+            btnAdd.onclick = () => abrirModalDataComemorativa(mesIndex);
+            div.appendChild(btnAdd);
+        }
+        
         container.appendChild(div);
     });
+    
+    if (atualizou) {
+        salvarDatasComemorativas();
+    }
+}
+
+function formatarTipoEventoLabel(tipo) {
+    if (!tipo) return 'Comemorativo';
+    const texto = tipo.toString().replace(/_/g, ' ');
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+function abrirModalDataComemorativa(mesIndex, eventoIndex = null) {
+    if (!exigirCoordenador()) return;
+    const modal = document.getElementById('modal-data-comemorativa');
+    const datas = obterDatasComemorativas();
+    const eventosMes = datas[mesIndex] || [];
+    const evento = eventoIndex !== null ? eventosMes[eventoIndex] : { dia: '', descricao: '', tipo: 'comemorativo', cor: obterCorPorTipo('comemorativo') };
+    
+    dataComemorativaContext = { mesIndex, eventoIndex };
+    
+    document.getElementById('mes-evento-label').value = meses[mesIndex];
+    document.getElementById('data-dia').value = evento.dia || '';
+    document.getElementById('data-descricao').value = evento.descricao || '';
+    document.getElementById('tipo-data').value = (evento.tipo || 'comemorativo');
+    document.getElementById('cor-data').value = evento.cor || obterCorPorTipo(evento.tipo);
+    
+    modal.classList.add('active');
+    modal.onclick = function(e) {
+        if (e.target === modal) {
+            fecharModalDataComemorativa();
+        }
+    };
+}
+
+function fecharModalDataComemorativa() {
+    const modal = document.getElementById('modal-data-comemorativa');
+    modal.classList.remove('active');
+    dataComemorativaContext = null;
+    document.getElementById('data-dia').value = '';
+    document.getElementById('data-descricao').value = '';
+}
+
+function salvarDataComemorativa() {
+    if (!exigirCoordenador()) return;
+    if (!dataComemorativaContext) return;
+    
+    const dia = parseInt(document.getElementById('data-dia').value, 10);
+    const descricao = document.getElementById('data-descricao').value.trim();
+    const tipo = document.getElementById('tipo-data').value || 'comemorativo';
+    const cor = document.getElementById('cor-data').value || obterCorPorTipo(tipo);
+    
+    if (!dia || dia < 1 || dia > 31 || !descricao) {
+        alert('Informe o dia (1 a 31) e a descrição do evento.');
+        return;
+    }
+    
+    const datas = obterDatasComemorativas();
+    datas[dataComemorativaContext.mesIndex] = datas[dataComemorativaContext.mesIndex] || [];
+    const eventosMes = datas[dataComemorativaContext.mesIndex];
+    const evento = { dia, descricao, tipo, cor };
+    
+    if (dataComemorativaContext.eventoIndex !== null) {
+        eventosMes[dataComemorativaContext.eventoIndex] = evento;
+    } else {
+        eventosMes.push(evento);
+    }
+    
+    salvarDatasComemorativas();
+    gerarDatasComemorativas();
+    fecharModalDataComemorativa();
+}
+
+function removerDataComemorativa(mesIndex, eventoIndex) {
+    if (!exigirCoordenador()) return;
+    if (!confirm('Deseja remover esta data comemorativa?')) return;
+    
+    const datas = obterDatasComemorativas();
+    datas[mesIndex] = datas[mesIndex] || [];
+    datas[mesIndex].splice(eventoIndex, 1);
+    salvarDatasComemorativas();
+    gerarDatasComemorativas();
+}
+
+function atualizarCorTipoEvento() {
+    const tipo = document.getElementById('tipo-data')?.value;
+    const corInput = document.getElementById('cor-data');
+    if (tipo && corInput) {
+        corInput.value = obterCorPorTipo(tipo);
+    }
 }
 
 // Funções Auxiliares

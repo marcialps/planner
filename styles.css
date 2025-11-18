@@ -155,6 +155,12 @@ header h1 {
     min-height: 100px;
 }
 
+.coord-only {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
 /* Dados Pessoais */
 .dados-pessoais-grid {
     display: grid;
@@ -790,6 +796,30 @@ header h1 {
 .data-item .descricao {
     color: var(--text-color);
     font-size: 0.95rem;
+}
+
+.data-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    gap: 0.5rem;
+}
+
+.data-badge {
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    text-transform: capitalize;
+}
+
+.data-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
 }
 
 .data-item.feriado {
