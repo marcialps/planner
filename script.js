@@ -2,9 +2,6 @@
 const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-const mesesAniversarios = ['Outubro', 'Novembro', 'Dezembro', 'Janeiro', 'Fevereiro', 
-                           'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro'];
-
 const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 let anoAtual = 2026;
@@ -144,6 +141,88 @@ function obterCorPorTipo(tipo) {
     if (!tipo) return '#f4a261';
     const chave = tipo.toLowerCase();
     return tipoEventoCores[chave] || '#f4a261';
+}
+
+const aniversariosStorageKey = 'aniversarios_data_v2';
+const mesesAntigosAniversarios = ['Outubro','Novembro','Dezembro','Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro'];
+const nomeMesParaIndice = meses.reduce((acc, nome, idx) => {
+    acc[nome] = idx;
+    return acc;
+}, {});
+let aniversariosData = null;
+
+function gerarId() {
+    return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function obterAniversariosData() {
+    if (!aniversariosData) {
+        const salvo = localStorage.getItem(aniversariosStorageKey);
+        if (salvo) {
+            aniversariosData = JSON.parse(salvo);
+        } else {
+            aniversariosData = migrarAniversariosAntigos();
+        }
+    }
+    if (!Array.isArray(aniversariosData) || aniversariosData.length !== 12) {
+        aniversariosData = Array.from({ length: 12 }, () => []);
+    }
+    return aniversariosData;
+}
+
+function migrarAniversariosAntigos() {
+    const base = Array.from({ length: 12 }, () => []);
+    let migrou = false;
+    for (let i = 0; i < 12; i++) {
+        const chave = `aniversarios_${i}`;
+        const salvo = localStorage.getItem(chave);
+        if (salvo) {
+            migrou = true;
+            try {
+                const lista = JSON.parse(salvo);
+                const nomeMes = mesesAntigosAniversarios[i];
+                const mesIndex = nomeMesParaIndice[nomeMes] ?? i;
+                lista.forEach(item => {
+                    if (typeof item === 'string') {
+                        base[mesIndex].push({ id: gerarId(), nome: item, dia: '' });
+                    } else if (item && typeof item === 'object') {
+                        base[mesIndex].push({
+                            id: item.id || gerarId(),
+                            nome: item.nome || '',
+                            dia: item.dia || ''
+                        });
+                    }
+                });
+            } catch (e) {
+                console.warn('Não foi possível migrar aniversários antigos', e);
+            }
+            localStorage.removeItem(chave);
+        }
+    }
+    if (!migrou) {
+        return Array.from({ length: 12 }, () => []);
+    }
+    localStorage.setItem(aniversariosStorageKey, JSON.stringify(base));
+    return base;
+}
+
+function salvarAniversariosData() {
+    if (aniversariosData) {
+        localStorage.setItem(aniversariosStorageKey, JSON.stringify(aniversariosData));
+    }
+}
+
+function ordenarAniversarios(lista = []) {
+    return [...lista].sort((a, b) => {
+        const diaA = parseInt(a.dia, 10) || 99;
+        const diaB = parseInt(b.dia, 10) || 99;
+        return diaA - diaB || (a.nome || '').localeCompare(b.nome || '');
+    });
+}
+
+function obterAniversariosDoDia(mesIndex, dia) {
+    const lista = obterAniversariosData()[mesIndex] || [];
+    return lista.filter(item => parseInt(item.dia, 10) === dia && item.nome);
 }
 
 // Feriados Nacionais 2026
@@ -308,6 +387,7 @@ function criarCalendarioMes(mes, ano) {
     // Dias do mês
     const hoje = new Date();
     const datasMes = obterDatasComemorativas()[mes] || [];
+    const aniversariosMes = obterAniversariosData()[mes] || [];
     for (let dia = 1; dia <= diasNoMes; dia++) {
         const dayDiv = document.createElement('div');
         dayDiv.className = 'calendar-day';
@@ -357,6 +437,17 @@ function criarCalendarioMes(mes, ano) {
             dayDiv.title = (dayDiv.title ? dayDiv.title + ' | ' : '') + comemorativa.descricao;
         }
         
+        const aniversariantesDia = aniversariosMes.filter(aniv => parseInt(aniv.dia, 10) === dia && aniv.nome);
+        if (aniversariantesDia.length > 0) {
+            dayDiv.classList.add('has-birthday');
+            const indicator = document.createElement('div');
+            indicator.className = 'birthday-indicator';
+            indicator.textContent = '🎈';
+            dayDiv.appendChild(indicator);
+            const nomes = aniversariantesDia.map(aniv => `Aniversário ${aniv.nome}`).join(', ');
+            dayDiv.title = (dayDiv.title ? dayDiv.title + ' | ' : '') + nomes;
+        }
+        
         // Adicionar clique no dia
         dayDiv.onclick = () => verEventosDoDia(dia, mes, ano);
         dayDiv.style.cursor = 'pointer';
@@ -372,8 +463,9 @@ function criarCalendarioMes(mes, ano) {
 function gerarAniversarios() {
     const container = document.getElementById('aniversarios-container');
     container.innerHTML = '';
+    const dados = obterAniversariosData();
     
-    mesesAniversarios.forEach((mesNome, index) => {
+    meses.forEach((mesNome, mesIndex) => {
         const div = document.createElement('div');
         div.className = 'aniversario-month';
         
@@ -381,19 +473,46 @@ function gerarAniversarios() {
         h3.textContent = mesNome;
         div.appendChild(h3);
         
-        const aniversarios = JSON.parse(localStorage.getItem(`aniversarios_${index}`) || '[]');
+        const lista = ordenarAniversarios(dados[mesIndex] || []);
+        if (lista.length === 0) {
+            const vazio = document.createElement('p');
+            vazio.className = 'info-text';
+            vazio.textContent = 'Nenhum aniversariante registrado.';
+            div.appendChild(vazio);
+        } else {
+            lista.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'aniversario-item';
+                
+                const display = document.createElement('div');
+                display.className = 'aniversario-display';
+                display.innerHTML = `
+                    <div class="aniversario-dia">${item.dia ? String(item.dia).padStart(2, '0') : '--'}</div>
+                    <div class="aniversario-nome"><span class="emoji">🎈</span>${item.nome || 'Nome não informado'}</div>
+                `;
+                itemDiv.appendChild(display);
+                
+                const editor = document.createElement('div');
+                editor.className = 'aniversario-editor coord-only';
+                editor.innerHTML = `
+                    <label>Dia:
+                        <input type="number" min="1" max="31" value="${item.dia || ''}" onchange="atualizarAniversarioCampo(${mesIndex}, '${item.id}', 'dia', this.value)">
+                    </label>
+                    <label>Nome:
+                        <input type="text" value="${item.nome || ''}" placeholder="Nome completo" onchange="atualizarAniversarioCampo(${mesIndex}, '${item.id}', 'nome', this.value)">
+                    </label>
+                    <button class="btn-small btn-delete" onclick="removerAniversario(${mesIndex}, '${item.id}')">Remover</button>
+                `;
+                itemDiv.appendChild(editor);
+                
+                div.appendChild(itemDiv);
+            });
+        }
         
-        // Adicionar aniversários existentes
-        aniversarios.forEach((nome, idx) => {
-            const item = criarItemAniversario(nome, index, idx);
-            div.appendChild(item);
-        });
-        
-        // Botão para adicionar novo
         const btnAdd = document.createElement('button');
-        btnAdd.className = 'btn-secondary coord-only btn-add-aniversario';
+        btnAdd.className = 'btn-secondary coord-only';
         btnAdd.textContent = '+ Adicionar Aniversariante';
-        btnAdd.onclick = () => adicionarAniversario(index, div);
+        btnAdd.onclick = () => adicionarAniversario(mesIndex);
         div.appendChild(btnAdd);
         
         container.appendChild(div);
@@ -404,52 +523,36 @@ function gerarAniversarios() {
     }
 }
 
-function criarItemAniversario(nome, mesIndex, itemIndex) {
-    const div = document.createElement('div');
-    div.className = 'aniversario-item';
-    
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.value = nome;
-    input.placeholder = 'Nome do aniversariante';
-    input.onchange = () => salvarAniversario(mesIndex, itemIndex, input.value);
-    
-    const btnRemover = document.createElement('button');
-    btnRemover.className = 'btn-secondary coord-only';
-    btnRemover.textContent = 'Remover';
-    btnRemover.style.marginTop = '0.5rem';
-    btnRemover.onclick = () => removerAniversario(mesIndex, itemIndex);
-    
-    div.appendChild(input);
-    div.appendChild(btnRemover);
-    
-    return div;
-}
-
-function adicionarAniversario(mesIndex, container) {
+function atualizarAniversarioCampo(mesIndex, itemId, campo, valor) {
     if (!exigirCoordenador()) return;
-    const aniversarios = JSON.parse(localStorage.getItem(`aniversarios_${mesIndex}`) || '[]');
-    aniversarios.push('');
-    localStorage.setItem(`aniversarios_${mesIndex}`, JSON.stringify(aniversarios));
-    
-    const item = criarItemAniversario('', mesIndex, aniversarios.length - 1);
-    const btnAdd = container.querySelector('.btn-add-aniversario');
-    container.insertBefore(item, btnAdd);
-}
-
-function salvarAniversario(mesIndex, itemIndex, nome) {
-    if (!exigirCoordenador()) return;
-    const aniversarios = JSON.parse(localStorage.getItem(`aniversarios_${mesIndex}`) || '[]');
-    aniversarios[itemIndex] = nome;
-    localStorage.setItem(`aniversarios_${mesIndex}`, JSON.stringify(aniversarios));
-}
-
-function removerAniversario(mesIndex, itemIndex) {
-    if (!exigirCoordenador()) return;
-    const aniversarios = JSON.parse(localStorage.getItem(`aniversarios_${mesIndex}`) || '[]');
-    aniversarios.splice(itemIndex, 1);
-    localStorage.setItem(`aniversarios_${mesIndex}`, JSON.stringify(aniversarios));
+    const dados = obterAniversariosData();
+    const lista = dados[mesIndex] || [];
+    const item = lista.find(aniv => aniv.id === itemId);
+    if (!item) return;
+    item[campo] = valor;
+    salvarAniversariosData();
     gerarAniversarios();
+    gerarCalendarioAnual();
+    gerarDatasComemorativas();
+}
+
+function adicionarAniversario(mesIndex) {
+    if (!exigirCoordenador()) return;
+    const dados = obterAniversariosData();
+    dados[mesIndex] = dados[mesIndex] || [];
+    dados[mesIndex].push({ id: gerarId(), nome: '', dia: '' });
+    salvarAniversariosData();
+    gerarAniversarios();
+}
+
+function removerAniversario(mesIndex, itemId) {
+    if (!exigirCoordenador()) return;
+    const dados = obterAniversariosData();
+    dados[mesIndex] = (dados[mesIndex] || []).filter(item => item.id !== itemId);
+    salvarAniversariosData();
+    gerarAniversarios();
+    gerarCalendarioAnual();
+    gerarDatasComemorativas();
 }
 
 // Funções de Planner Mensal
@@ -512,10 +615,15 @@ function salvarPlannerMensal(mesIndex) {
 
 // Funções de Planejamento Semanal
 function carregarPlanejamentoSemanal() {
+    sincronizarSemanaSelector();
     const semanaInput = document.getElementById('semana-planner').value;
+    const container = document.getElementById('planejamento-semanal-content');
+    if (!semanaInput) {
+        container.innerHTML = '<p class="info-text">Nenhuma semana registrada ainda.</p>';
+        return;
+    }
     const [ano, semana] = semanaInput.split('-W').map(Number);
     
-    const container = document.getElementById('planejamento-semanal-content');
     const dados = JSON.parse(localStorage.getItem(`planejamento_semanal_${ano}_${semana}`) || '{}');
     
     const dias = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
@@ -567,7 +675,88 @@ function salvarPlanejamentoSemanal() {
     }
     
     localStorage.setItem(`planejamento_semanal_${ano}_${semana}`, JSON.stringify(dados));
+    registrarSemanaPlanejamento(ano, semana);
+    sincronizarSemanaSelector();
     alert('Planejamento semanal salvo com sucesso!');
+}
+
+function listarSemanasPlanejamento() {
+    const registro = new Set(JSON.parse(localStorage.getItem('planejamento_semanal_registro') || '[]'));
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('planejamento_semanal_')) {
+            const partes = key.split('_');
+            const ano = partes[2];
+            const semana = partes[3];
+            if (ano && semana) {
+                const valor = `${ano}-W${String(semana).padStart(2, '0')}`;
+                registro.add(valor);
+            }
+        }
+    }
+    return Array.from(registro).sort();
+}
+
+function registrarSemanaPlanejamento(ano, semana) {
+    const registro = new Set(JSON.parse(localStorage.getItem('planejamento_semanal_registro') || '[]'));
+    const valor = `${ano}-W${String(semana).padStart(2, '0')}`;
+    registro.add(valor);
+    localStorage.setItem('planejamento_semanal_registro', JSON.stringify(Array.from(registro)));
+}
+
+function formatarSemanaLabel(valor) {
+    if (!valor) return 'Semana';
+    const [ano, semana] = valor.split('-W');
+    return `Semana ${semana} / ${ano}`;
+}
+
+function sincronizarSemanaSelector() {
+    const select = document.getElementById('semana-planner-select');
+    const input = document.getElementById('semana-planner');
+    if (!select || !input) return;
+    
+    if (isCoordenador()) {
+        select.style.display = 'none';
+        select.innerHTML = '';
+        select.disabled = true;
+        input.style.display = 'inline-block';
+        return;
+    }
+    
+    const semanas = listarSemanasPlanejamento();
+    select.innerHTML = '';
+    
+    if (semanas.length === 0) {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'Sem semanas registradas';
+        select.appendChild(option);
+        select.disabled = true;
+        input.value = '';
+    } else {
+        select.disabled = false;
+        semanas.forEach(valor => {
+            const option = document.createElement('option');
+            option.value = valor;
+            option.textContent = formatarSemanaLabel(valor);
+            select.appendChild(option);
+        });
+        if (!semanas.includes(input.value)) {
+            input.value = semanas[0];
+        }
+        select.value = input.value;
+    }
+    
+    input.style.display = 'none';
+    select.style.display = 'inline-block';
+}
+
+function selecionarSemanaExistente() {
+    const select = document.getElementById('semana-planner-select');
+    const input = document.getElementById('semana-planner');
+    if (!select || !input) return;
+    input.value = select.value;
+    carregarPlanejamentoSemanal();
 }
 
 // Funções de Planejamento Diário
@@ -820,6 +1009,7 @@ function gerarDatasComemorativas() {
     const container = document.getElementById('datas-comemorativas-content');
     container.innerHTML = '';
     const datas = obterDatasComemorativas();
+    const aniversarios = obterAniversariosData();
     let atualizou = false;
     
     meses.forEach((mesNome, mesIndex) => {
@@ -831,8 +1021,11 @@ function gerarDatasComemorativas() {
         div.appendChild(h3);
         
         const eventos = (datas[mesIndex] || []).sort((a, b) => a.dia - b.dia);
+        const aniversariosMes = ordenarAniversarios(aniversarios[mesIndex] || []).filter(a => a.nome && a.dia);
+        let temConteudo = false;
         
         if (eventos.length > 0) {
+            temConteudo = true;
             eventos.forEach((evento, eventoIndex) => {
                 if (!evento.cor) {
                     evento.cor = obterCorPorTipo(evento.tipo);
@@ -872,7 +1065,31 @@ function gerarDatasComemorativas() {
                 
                 div.appendChild(itemDiv);
             });
-        } else {
+        }
+        
+        if (aniversariosMes.length > 0) {
+            temConteudo = true;
+            const titulo = document.createElement('p');
+            titulo.className = 'datas-subtitle';
+            titulo.textContent = 'Aniversariantes';
+            div.appendChild(titulo);
+            
+            aniversariosMes.forEach(aniv => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'data-item birthday-item';
+                itemDiv.style.borderLeftColor = '#ff6f91';
+                itemDiv.innerHTML = `
+                    <div class="data-linha">
+                        <span class="data">🎈 ${String(aniv.dia).padStart(2, '0')}/${String(mesIndex + 1).padStart(2, '0')}</span>
+                        <span class="data-badge birthday-badge">Aniversário</span>
+                    </div>
+                    <div class="descricao">${aniv.nome}</div>
+                `;
+                div.appendChild(itemDiv);
+            });
+        }
+        
+        if (!temConteudo) {
             const empty = document.createElement('p');
             empty.className = 'info-text';
             empty.textContent = 'Nenhuma data comemorativa neste mês.';
@@ -1029,6 +1246,7 @@ function mostrarConteudoPrincipal() {
     gerarAniversarios();
     carregarPlannerMensal();
     carregarPlanejamentoSemanal();
+    sincronizarSemanaSelector();
     carregarAcompanhamentos();
     carregarReunioes();
     carregarAvaliacoes();
@@ -1084,6 +1302,7 @@ function atualizarInterfacePorPerfil() {
     }
     
     aplicarRestricoesProfessor();
+    sincronizarSemanaSelector();
 }
 
 // ========== FUNÇÕES DE AGENDAMENTOS ==========
