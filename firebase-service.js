@@ -334,13 +334,25 @@ export const FirebaseService = {
     },
 
     // --- Autenticação (Simples) ---
+    // --- Autenticação (Simples) ---
     async checkLogin(username, password) {
         try {
             const q = query(collection(db, COLLECTIONS.USERS), where("username", "==", username), where("password", "==", password));
             const querySnapshot = await getDocs(q);
+            if (querySnapshot.empty) {
+                // Debugging: check if user exists at all
+                const qUser = query(collection(db, COLLECTIONS.USERS), where("username", "==", username));
+                const userSnap = await getDocs(qUser);
+                if (userSnap.empty) {
+                    console.warn(`Debug: Usuário '${username}' não encontrado.`);
+                } else {
+                    console.warn(`Debug: Usuário '${username}' encontrado, mas senha incorreta.`);
+                }
+            }
             return !querySnapshot.empty;
         } catch (error) {
             console.error("Erro ao verificar login:", error);
+            alert("Erro técnico ao verificar login (ver console): " + error.message);
             return false;
         }
     },
@@ -359,11 +371,15 @@ export const FirebaseService = {
                     role: "coordenador"
                 });
                 console.log("Usuário inicial criado com sucesso.");
+                alert("Usuário inicial 'pastorJosemar' criado com sucesso!");
                 return true;
+            } else {
+                console.log("Usuário inicial já existe.");
             }
             return false; // Já existe
         } catch (error) {
             console.error("Erro ao criar usuário inicial:", error);
+            alert("Erro técnico ao criar usuário inicial (ver console): " + error.message);
             return false;
         }
     }
