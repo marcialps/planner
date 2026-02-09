@@ -1440,3 +1440,8 @@ html {
     }
 }
 
+
+/* Fix for login button in Professor Mode */
+.modo-professor #modal-login .btn-primary {
+    display: block !important;
+}

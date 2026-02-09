@@ -1630,7 +1630,7 @@ function formatarDataHora(isoString) {
 function aplicarRestricoesProfessor() {
     if (!isCoordenador()) {
         document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(campo => {
-            if (!campo.id.includes('comentario') && !campo.id.includes('novo-comentario')) {
+            if (!campo.id.includes('comentario') && !campo.id.includes('novo-comentario') && !campo.id.includes('login-')) {
                 campo.setAttribute('readonly', 'readonly');
             }
         });
