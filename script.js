@@ -1640,3 +1640,27 @@ function aplicarRestricoesProfessor() {
     }
 }
 
+
+// Expor funções para o escopo global (window)
+window.selecionarPerfil = selecionarPerfil;
+window.trocarPerfil = trocarPerfil;
+window.abrirModalLogin = abrirModalLogin;
+window.fecharModalLogin = fecharModalLogin;
+window.fazerLogin = fazerLogin;
+window.fecharPainelEventos = fecharPainelEventos;
+window.fecharModalAgendamento = fecharModalAgendamento;
+window.salvarAgendamento = salvarAgendamento;
+window.fecharModalComentarios = fecharModalComentarios;
+window.adicionarComentario = adicionarComentario;
+window.fecharModalDataComemorativa = fecharModalDataComemorativa;
+window.salvarDataComemorativa = salvarDataComemorativa;
+window.salvarPlannerMensal = salvarPlannerMensal;
+window.salvarPlanejamentoSemanal = salvarPlanejamentoSemanal;
+window.salvarAcompanhamentoAluno = salvarAcompanhamentoAluno;
+window.removerAcompanhamento = removerAcompanhamento;
+window.salvarReuniao = salvarReuniao;
+window.removerReuniao = removerReuniao;
+window.salvarAvaliacaoMensal = salvarAvaliacaoMensal;
+window.editarAvaliacao = editarAvaliacao;
+window.editarEvento = editarEvento;
+window.removerEvento = removerEvento;
