@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planner Coordenador Pedagógico 2026 - Rede Excellent</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- Tela de Seleção de Perfil -->
     <div id="login-screen" class="login-screen">
@@ -28,283 +30,301 @@
 
     <!-- Conteúdo Principal (oculto inicialmente) -->
     <div id="main-content" style="display: none;">
-    <header>
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h1>📚 Planner Coordenador Pedagógico 2026</h1>
-                    <p class="subtitle">Rede Excellent</p>
+        <header>
+            <div class="container">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1>📚 Planner Coordenador Pedagógico 2026</h1>
+                        <p class="subtitle">Rede Excellent</p>
+                    </div>
+                    <div id="perfil-indicator"
+                        style="background: var(--secondary-color); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: bold;">
+                        Coordenador
+                    </div>
                 </div>
-                <div id="perfil-indicator" style="background: var(--secondary-color); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: bold;">
-                    Coordenador
-                </div>
+                <button class="btn-secondary" onclick="trocarPerfil()" style="margin-top: 1rem;">Trocar Perfil</button>
             </div>
-            <button class="btn-secondary" onclick="trocarPerfil()" style="margin-top: 1rem;">Trocar Perfil</button>
-        </div>
-    </header>
+        </header>
 
-    <nav class="main-nav">
-        <div class="container">
-            <ul>
-                <li><a href="#dados-pessoais" class="nav-link">Dados Pessoais</a></li>
-                <li><a href="#calendario-anual" class="nav-link">Calendário Anual</a></li>
-                <li><a href="#aniversarios" class="nav-link">Aniversários</a></li>
-                <li><a href="#planner-mensal" class="nav-link">Planner Mensal</a></li>
-                <li><a href="#planejamento-semanal" class="nav-link">Planejamento Semanal</a></li>
-                <li><a href="#planejamento-diario" class="nav-link">Planejamento Diário</a></li>
-                <li><a href="#acompanhamento-equipe" class="nav-link">Acompanhamento Equipe</a></li>
-                <li><a href="#datas-comemorativas" class="nav-link">Datas Comemorativas</a></li>
-            </ul>
-        </div>
-    </nav>
+        <nav class="main-nav">
+            <div class="container">
+                <ul>
+                    <li><a href="#dados-pessoais" class="nav-link">Dados Pessoais</a></li>
+                    <li><a href="#calendario-anual" class="nav-link">Calendário Anual</a></li>
+                    <li><a href="#aniversarios" class="nav-link">Aniversários</a></li>
+                    <li><a href="#planner-mensal" class="nav-link">Planner Mensal</a></li>
+                    <li><a href="#planejamento-semanal" class="nav-link">Planejamento Semanal</a></li>
+                    <li><a href="#planejamento-diario" class="nav-link">Planejamento Diário</a></li>
+                    <li><a href="#acompanhamento-equipe" class="nav-link">Acompanhamento Equipe</a></li>
+                    <li><a href="#datas-comemorativas" class="nav-link">Datas Comemorativas</a></li>
+                </ul>
+            </div>
+        </nav>
 
-    <main class="container">
-        <!-- Seção Dados Pessoais -->
-        <section id="dados-pessoais" class="section">
-            <h2>👤 Perfil do Coordenador</h2>
-            <div class="dados-pessoais-grid">
-                <div id="form-dados-pessoais" class="dados-form">
-                    <h3>Atualize suas informações</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="nome">Nome Completo:</label>
-                            <input type="text" id="nome" placeholder="Digite seu nome completo">
-                        </div>
-                        <div class="form-group">
-                            <label for="escola">Escola:</label>
-                            <input type="text" id="escola" placeholder="Nome da escola">
-                        </div>
-                        <div class="form-group">
-                            <label for="area-atuacao">Área de Atuação:</label>
-                            <input type="text" id="area-atuacao" placeholder="Ex: Coordenação Pedagógica - Ensino Fundamental">
-                        </div>
-                        <div class="form-group">
-                            <label for="tempo-experiencia">Tempo de Experiência:</label>
-                            <input type="text" id="tempo-experiencia" placeholder="Ex: 12 anos de atuação">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">E-mail:</label>
-                            <input type="email" id="email" placeholder="seu.email@exemplo.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefone">Telefone:</label>
-                            <input type="tel" id="telefone" placeholder="(00) 00000-0000">
-                        </div>
-                        <div class="form-group">
-                            <label for="foto-coordenador">Foto do Coordenador:</label>
-                            <input type="file" id="foto-coordenador" accept="image/*">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="mensagem-boasvindas">Mensagem de Apresentação:</label>
-                            <textarea id="mensagem-boasvindas" rows="4" placeholder="Compartilhe uma mensagem inspiradora ou apresentação para sua equipe."></textarea>
-                        </div>
-                    </div>
-                    <button class="btn-primary coord-only" onclick="salvarDadosPessoais()">Salvar Dados</button>
-                    <p class="info-text">Essas informações serão exibidas aos professores em "Conheça seu Coordenador".</p>
-                </div>
-
-                <div class="perfil-coordenador-card" id="perfil-coordenador-display">
-                    <div class="perfil-header">
-                        <span class="badge">Conheça seu Coordenador</span>
-                    </div>
-                    <div class="perfil-body">
-                        <div class="perfil-photo-wrapper">
-                            <img id="foto-preview" src="https://placehold.co/260x260?text=Coordenador" alt="Foto do Coordenador" />
-                        </div>
-                        <div class="perfil-info">
-                            <h3 id="display-nome">Nome do Coordenador</h3>
-                            <p class="perfil-area" id="display-area">Área de atuação</p>
-                            <p class="perfil-escola" id="display-escola">Rede Excellent</p>
-                            <div class="perfil-meta">
-                                <p><strong>Experiência:</strong> <span id="display-experiencia">--</span></p>
-                                <p><strong>E-mail:</strong> <span id="display-email">--</span></p>
-                                <p><strong>Telefone:</strong> <span id="display-telefone">--</span></p>
+        <main class="container">
+            <!-- Seção Dados Pessoais -->
+            <section id="dados-pessoais" class="section">
+                <h2>👤 Perfil do Coordenador</h2>
+                <div class="dados-pessoais-grid">
+                    <div id="form-dados-pessoais" class="dados-form">
+                        <h3>Atualize suas informações</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="nome">Nome Completo:</label>
+                                <input type="text" id="nome" placeholder="Digite seu nome completo">
                             </div>
-                            <div class="perfil-mensagem">
-                                <h4>Mensagem do Coordenador</h4>
-                                <p id="display-mensagem">Mensagem de boas-vindas e apresentação aparecerá aqui.</p>
+                            <div class="form-group">
+                                <label for="escola">Escola:</label>
+                                <input type="text" id="escola" placeholder="Nome da escola">
+                            </div>
+                            <div class="form-group">
+                                <label for="area-atuacao">Área de Atuação:</label>
+                                <input type="text" id="area-atuacao"
+                                    placeholder="Ex: Coordenação Pedagógica - Ensino Fundamental">
+                            </div>
+                            <div class="form-group">
+                                <label for="tempo-experiencia">Tempo de Experiência:</label>
+                                <input type="text" id="tempo-experiencia" placeholder="Ex: 12 anos de atuação">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-mail:</label>
+                                <input type="email" id="email" placeholder="seu.email@exemplo.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Telefone:</label>
+                                <input type="tel" id="telefone" placeholder="(00) 00000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="foto-coordenador">Foto do Coordenador:</label>
+                                <input type="file" id="foto-coordenador" accept="image/*">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="mensagem-boasvindas">Mensagem de Apresentação:</label>
+                                <textarea id="mensagem-boasvindas" rows="4"
+                                    placeholder="Compartilhe uma mensagem inspiradora ou apresentação para sua equipe."></textarea>
                             </div>
                         </div>
+                        <button class="btn-primary coord-only" onclick="salvarDadosPessoais()">Salvar Dados</button>
+                        <p class="info-text">Essas informações serão exibidas aos professores em "Conheça seu
+                            Coordenador".</p>
                     </div>
-                    <button class="btn-comentar" onclick="abrirModalComentarios('dados-pessoais')" style="margin-top: 1rem;">💬 Deixe um recado</button>
-                </div>
-            </div>
-        </section>
 
-        <!-- Seção Calendário Anual -->
-        <section id="calendario-anual" class="section">
-            <h2>📅 Calendário Anual 2026</h2>
-            <div class="year-selector">
-                <button class="btn-secondary" onclick="navegarAno(-1)">← Anterior</button>
-                <span id="ano-atual" class="ano-display">2026</span>
-                <button class="btn-secondary" onclick="navegarAno(1)">Próximo →</button>
-            </div>
-            <div id="calendarios-mensais" class="calendarios-grid"></div>
-            
-            <div style="margin-top: 2rem; text-align: center;">
-                <button class="btn-primary coord-only" onclick="abrirModalAgendamento()" id="btn-novo-agendamento">➕ Novo Agendamento</button>
-                <button class="btn-comentar" onclick="abrirModalComentarios('calendario-anual')" style="margin-left: 1rem;">💬 Ver Comentários</button>
-            </div>
-            
-            <!-- Lista de Eventos do Mês Selecionado -->
-            <div id="eventos-mes" style="margin-top: 2rem; display: none;">
-                <h3>Agendamentos do Mês</h3>
-                <div id="lista-eventos-mes" class="event-list"></div>
-            </div>
-        </section>
-
-        <!-- Seção Aniversários -->
-        <section id="aniversarios" class="section">
-            <h2>🎂 Calendário de Aniversários</h2>
-            <p class="info-text">Registre os aniversariantes de janeiro a dezembro e visualize-os em todo o planner.</p>
-            <div id="aniversarios-container" class="aniversarios-grid"></div>
-        </section>
-
-        <!-- Seção Planner Mensal -->
-        <section id="planner-mensal" class="section">
-            <h2>📋 Planner Mensal</h2>
-            <div class="month-selector">
-                <label for="mes-planner">Selecione o mês:</label>
-                <select id="mes-planner" onchange="carregarPlannerMensal()">
-                    <option value="0">Janeiro</option>
-                    <option value="1">Fevereiro</option>
-                    <option value="2">Março</option>
-                    <option value="3">Abril</option>
-                    <option value="4">Maio</option>
-                    <option value="5">Junho</option>
-                    <option value="6">Julho</option>
-                    <option value="7">Agosto</option>
-                    <option value="8">Setembro</option>
-                    <option value="9">Outubro</option>
-                    <option value="10">Novembro</option>
-                    <option value="11">Dezembro</option>
-                </select>
-            </div>
-            <div id="planner-mensal-content" class="planner-mensal-grid"></div>
-        </section>
-
-        <!-- Seção Planejamento Semanal -->
-        <section id="planejamento-semanal" class="section">
-            <h2>📆 Planejamento Semanal</h2>
-            <div class="week-selector">
-                <label for="semana-planner">Selecione a semana:</label>
-                <input type="week" id="semana-planner" onchange="carregarPlanejamentoSemanal()">
-                <select id="semana-planner-select" class="professor-week-select" style="display: none;" onchange="selecionarSemanaExistente()"></select>
-            </div>
-            <div id="planejamento-semanal-content" class="semanal-grid"></div>
-        </section>
-
-        <!-- Seção Planejamento Diário -->
-        <section id="planejamento-diario" class="section">
-            <h2>📝 Planejamento Diário - Acompanhamento de Alunos</h2>
-            <div class="coord-only">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="data-acompanhamento">Data:</label>
-                        <input type="date" id="data-acompanhamento">
-                    </div>
-                    <div class="form-group">
-                        <label for="aluno-nome">Nome do Aluno:</label>
-                        <input type="text" id="aluno-nome" placeholder="Nome completo do aluno">
-                    </div>
-                    <div class="form-group">
-                        <label for="aluno-turma">Turma:</label>
-                        <input type="text" id="aluno-turma" placeholder="Ex: 5º Ano A">
-                    </div>
-                    <div class="form-group">
-                        <label for="motivo-observacao">Motivo da Observação:</label>
-                        <textarea id="motivo-observacao" rows="3" placeholder="Descreva o motivo do acompanhamento"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="acoes-tomadas">Ações Tomadas:</label>
-                        <textarea id="acoes-tomadas" rows="3" placeholder="Registre as ações já realizadas"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="proximos-passos">Próximos Passos:</label>
-                        <textarea id="proximos-passos" rows="3" placeholder="O que será feito a seguir"></textarea>
+                    <div class="perfil-coordenador-card" id="perfil-coordenador-display">
+                        <div class="perfil-header">
+                            <span class="badge">Conheça seu Coordenador</span>
+                        </div>
+                        <div class="perfil-body">
+                            <div class="perfil-photo-wrapper">
+                                <img id="foto-preview" src="https://placehold.co/260x260?text=Coordenador"
+                                    alt="Foto do Coordenador" />
+                            </div>
+                            <div class="perfil-info">
+                                <h3 id="display-nome">Nome do Coordenador</h3>
+                                <p class="perfil-area" id="display-area">Área de atuação</p>
+                                <p class="perfil-escola" id="display-escola">Rede Excellent</p>
+                                <div class="perfil-meta">
+                                    <p><strong>Experiência:</strong> <span id="display-experiencia">--</span></p>
+                                    <p><strong>E-mail:</strong> <span id="display-email">--</span></p>
+                                    <p><strong>Telefone:</strong> <span id="display-telefone">--</span></p>
+                                </div>
+                                <div class="perfil-mensagem">
+                                    <h4>Mensagem do Coordenador</h4>
+                                    <p id="display-mensagem">Mensagem de boas-vindas e apresentação aparecerá aqui.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-comentar" onclick="abrirModalComentarios('dados-pessoais')"
+                            style="margin-top: 1rem;">💬 Deixe um recado</button>
                     </div>
                 </div>
-                <button class="btn-primary coord-only" onclick="salvarAcompanhamentoAluno()">Salvar Acompanhamento</button>
-            </div>
-            <div id="lista-acompanhamentos" class="acompanhamentos-lista"></div>
-        </section>
+            </section>
 
-        <!-- Seção Acompanhamento de Equipe -->
-        <section id="acompanhamento-equipe" class="section">
-            <h2>👥 Acompanhamento de Equipe</h2>
-            <div class="tabs">
-                <button class="tab-btn active" onclick="abrirTab('reunioes', this)">Reuniões Pedagógicas</button>
-                <button class="tab-btn" onclick="abrirTab('avaliacao-mensal', this)">Avaliação Mensal</button>
-            </div>
-            
-            <div id="reunioes" class="tab-content active">
-                <h3>Registro de Reuniões</h3>
+            <!-- Seção Calendário Anual -->
+            <section id="calendario-anual" class="section">
+                <h2>📅 Calendário Anual 2026</h2>
+                <div class="year-selector">
+                    <button class="btn-secondary" onclick="navegarAno(-1)">← Anterior</button>
+                    <span id="ano-atual" class="ano-display">2026</span>
+                    <button class="btn-secondary" onclick="navegarAno(1)">Próximo →</button>
+                </div>
+                <div id="calendarios-mensais" class="calendarios-grid"></div>
+
+                <div style="margin-top: 2rem; text-align: center;">
+                    <button class="btn-primary coord-only" onclick="abrirModalAgendamento()" id="btn-novo-agendamento">➕
+                        Novo Agendamento</button>
+                    <button class="btn-comentar" onclick="abrirModalComentarios('calendario-anual')"
+                        style="margin-left: 1rem;">💬 Ver Comentários</button>
+                </div>
+
+                <!-- Lista de Eventos do Mês Selecionado -->
+                <div id="eventos-mes" style="margin-top: 2rem; display: none;">
+                    <h3>Agendamentos do Mês</h3>
+                    <div id="lista-eventos-mes" class="event-list"></div>
+                </div>
+            </section>
+
+            <!-- Seção Aniversários -->
+            <section id="aniversarios" class="section">
+                <h2>🎂 Calendário de Aniversários</h2>
+                <p class="info-text">Registre os aniversariantes de janeiro a dezembro e visualize-os em todo o planner.
+                </p>
+                <div id="aniversarios-container" class="aniversarios-grid"></div>
+            </section>
+
+            <!-- Seção Planner Mensal -->
+            <section id="planner-mensal" class="section">
+                <h2>📋 Planner Mensal</h2>
+                <div class="month-selector">
+                    <label for="mes-planner">Selecione o mês:</label>
+                    <select id="mes-planner" onchange="carregarPlannerMensal()">
+                        <option value="0">Janeiro</option>
+                        <option value="1">Fevereiro</option>
+                        <option value="2">Março</option>
+                        <option value="3">Abril</option>
+                        <option value="4">Maio</option>
+                        <option value="5">Junho</option>
+                        <option value="6">Julho</option>
+                        <option value="7">Agosto</option>
+                        <option value="8">Setembro</option>
+                        <option value="9">Outubro</option>
+                        <option value="10">Novembro</option>
+                        <option value="11">Dezembro</option>
+                    </select>
+                </div>
+                <div id="planner-mensal-content" class="planner-mensal-grid"></div>
+            </section>
+
+            <!-- Seção Planejamento Semanal -->
+            <section id="planejamento-semanal" class="section">
+                <h2>📆 Planejamento Semanal</h2>
+                <div class="week-selector">
+                    <label for="semana-planner">Selecione a semana:</label>
+                    <input type="week" id="semana-planner" onchange="carregarPlanejamentoSemanal()">
+                    <select id="semana-planner-select" class="professor-week-select" style="display: none;"
+                        onchange="selecionarSemanaExistente()"></select>
+                </div>
+                <div id="planejamento-semanal-content" class="semanal-grid"></div>
+            </section>
+
+            <!-- Seção Planejamento Diário -->
+            <section id="planejamento-diario" class="section">
+                <h2>📝 Planejamento Diário - Acompanhamento de Alunos</h2>
                 <div class="coord-only">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="data-reuniao">Data da Reunião:</label>
-                            <input type="date" id="data-reuniao">
+                            <label for="data-acompanhamento">Data:</label>
+                            <input type="date" id="data-acompanhamento">
                         </div>
                         <div class="form-group">
-                            <label for="participantes">Participantes:</label>
-                            <input type="text" id="participantes" placeholder="Liste os participantes">
+                            <label for="aluno-nome">Nome do Aluno:</label>
+                            <input type="text" id="aluno-nome" placeholder="Nome completo do aluno">
                         </div>
-                        <div class="form-group full-width">
-                            <label for="pauta-reuniao">Pauta:</label>
-                            <textarea id="pauta-reuniao" rows="4" placeholder="Itens da pauta da reunião"></textarea>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="ata-reuniao">Ata da Reunião:</label>
-                            <textarea id="ata-reuniao" rows="6" placeholder="Registre os principais pontos discutidos e decisões tomadas"></textarea>
-                        </div>
-                    </div>
-                    <button class="btn-primary coord-only" onclick="salvarReuniao()">Salvar Reunião</button>
-                </div>
-                <div id="lista-reunioes" class="reunioes-lista"></div>
-            </div>
-
-            <div id="avaliacao-mensal" class="tab-content">
-                <h3>Avaliação de Fechamento do Mês</h3>
-                <div class="coord-only">
-                    <div class="form-grid">
                         <div class="form-group">
-                            <label for="mes-avaliacao">Mês:</label>
-                            <select id="mes-avaliacao">
-                                <option value="0">Janeiro</option>
-                                <option value="1">Fevereiro</option>
-                                <option value="2">Março</option>
-                                <option value="3">Abril</option>
-                                <option value="4">Maio</option>
-                                <option value="5">Junho</option>
-                                <option value="6">Julho</option>
-                                <option value="7">Agosto</option>
-                                <option value="8">Setembro</option>
-                                <option value="9">Outubro</option>
-                                <option value="10">Novembro</option>
-                                <option value="11">Dezembro</option>
-                            </select>
+                            <label for="aluno-turma">Turma:</label>
+                            <input type="text" id="aluno-turma" placeholder="Ex: 5º Ano A">
                         </div>
-                        <div class="form-group full-width">
-                            <label for="notas-desempenho">Notas sobre Desempenho:</label>
-                            <textarea id="notas-desempenho" rows="5" placeholder="Avalie o desempenho da equipe e resultados alcançados"></textarea>
+                        <div class="form-group">
+                            <label for="motivo-observacao">Motivo da Observação:</label>
+                            <textarea id="motivo-observacao" rows="3"
+                                placeholder="Descreva o motivo do acompanhamento"></textarea>
                         </div>
-                        <div class="form-group full-width">
-                            <label for="decisoes-pedagogicas">Decisões Pedagógicas Tomadas:</label>
-                            <textarea id="decisoes-pedagogicas" rows="5" placeholder="Registre as principais decisões pedagógicas do mês"></textarea>
+                        <div class="form-group">
+                            <label for="acoes-tomadas">Ações Tomadas:</label>
+                            <textarea id="acoes-tomadas" rows="3"
+                                placeholder="Registre as ações já realizadas"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="proximos-passos">Próximos Passos:</label>
+                            <textarea id="proximos-passos" rows="3" placeholder="O que será feito a seguir"></textarea>
                         </div>
                     </div>
-                    <button class="btn-primary coord-only" onclick="salvarAvaliacaoMensal()">Salvar Avaliação</button>
+                    <button class="btn-primary coord-only" onclick="salvarAcompanhamentoAluno()">Salvar
+                        Acompanhamento</button>
                 </div>
-                <div id="lista-avaliacoes" class="avaliacoes-lista"></div>
-            </div>
-        </section>
+                <div id="lista-acompanhamentos" class="acompanhamentos-lista"></div>
+            </section>
 
-        <!-- Seção Datas Comemorativas -->
-        <section id="datas-comemorativas" class="section">
-            <h2>🎉 Datas Comemorativas 2026</h2>
-            <div id="datas-comemorativas-content" class="datas-grid"></div>
-        </section>
-    </main>
+            <!-- Seção Acompanhamento de Equipe -->
+            <section id="acompanhamento-equipe" class="section">
+                <h2>👥 Acompanhamento de Equipe</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="abrirTab('reunioes', this)">Reuniões Pedagógicas</button>
+                    <button class="tab-btn" onclick="abrirTab('avaliacao-mensal', this)">Avaliação Mensal</button>
+                </div>
+
+                <div id="reunioes" class="tab-content active">
+                    <h3>Registro de Reuniões</h3>
+                    <div class="coord-only">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="data-reuniao">Data da Reunião:</label>
+                                <input type="date" id="data-reuniao">
+                            </div>
+                            <div class="form-group">
+                                <label for="participantes">Participantes:</label>
+                                <input type="text" id="participantes" placeholder="Liste os participantes">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="pauta-reuniao">Pauta:</label>
+                                <textarea id="pauta-reuniao" rows="4"
+                                    placeholder="Itens da pauta da reunião"></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="ata-reuniao">Ata da Reunião:</label>
+                                <textarea id="ata-reuniao" rows="6"
+                                    placeholder="Registre os principais pontos discutidos e decisões tomadas"></textarea>
+                            </div>
+                        </div>
+                        <button class="btn-primary coord-only" onclick="salvarReuniao()">Salvar Reunião</button>
+                    </div>
+                    <div id="lista-reunioes" class="reunioes-lista"></div>
+                </div>
+
+                <div id="avaliacao-mensal" class="tab-content">
+                    <h3>Avaliação de Fechamento do Mês</h3>
+                    <div class="coord-only">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="mes-avaliacao">Mês:</label>
+                                <select id="mes-avaliacao">
+                                    <option value="0">Janeiro</option>
+                                    <option value="1">Fevereiro</option>
+                                    <option value="2">Março</option>
+                                    <option value="3">Abril</option>
+                                    <option value="4">Maio</option>
+                                    <option value="5">Junho</option>
+                                    <option value="6">Julho</option>
+                                    <option value="7">Agosto</option>
+                                    <option value="8">Setembro</option>
+                                    <option value="9">Outubro</option>
+                                    <option value="10">Novembro</option>
+                                    <option value="11">Dezembro</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="notas-desempenho">Notas sobre Desempenho:</label>
+                                <textarea id="notas-desempenho" rows="5"
+                                    placeholder="Avalie o desempenho da equipe e resultados alcançados"></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="decisoes-pedagogicas">Decisões Pedagógicas Tomadas:</label>
+                                <textarea id="decisoes-pedagogicas" rows="5"
+                                    placeholder="Registre as principais decisões pedagógicas do mês"></textarea>
+                            </div>
+                        </div>
+                        <button class="btn-primary coord-only" onclick="salvarAvaliacaoMensal()">Salvar
+                            Avaliação</button>
+                    </div>
+                    <div id="lista-avaliacoes" class="avaliacoes-lista"></div>
+                </div>
+            </section>
+
+            <!-- Seção Datas Comemorativas -->
+            <section id="datas-comemorativas" class="section">
+                <h2>🎉 Datas Comemorativas 2026</h2>
+                <div id="datas-comemorativas-content" class="datas-grid"></div>
+            </section>
+        </main>
     </div> <!-- Fim do main-content -->
 
     <footer>
@@ -418,6 +438,28 @@
     <!-- Overlay para painel de eventos -->
     <div id="overlay-eventos" class="overlay" onclick="fecharPainelEventos()"></div>
 
+    <!-- Modal de Login -->
+    <div id="modal-login" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>🔒 Acesso Restrito</h3>
+                <button class="close-modal" onclick="fecharModalLogin()">&times;</button>
+            </div>
+            <div style="margin-top: 1rem;">
+                <div class="form-group">
+                    <label for="login-usuario">Usuário:</label>
+                    <input type="text" id="login-usuario" placeholder="Digite seu usuário">
+                </div>
+                <div class="form-group">
+                    <label for="login-senha">Senha:</label>
+                    <input type="password" id="login-senha" placeholder="Digite sua senha">
+                </div>
+                <button class="btn-primary" style="width: 100%; margin-top: 1rem;"
+                    onclick="fazerLogin()">Entrar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Painel Lateral de Eventos -->
     <div id="eventos-panel" class="eventos-panel">
         <div class="eventos-panel-header">
@@ -429,7 +471,11 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module">
+        import { FirebaseService } from './firebase-service.js';
+        window.FirebaseService = FirebaseService;
+    </script>
+    <script type="module" src="script.js"></script>
 </body>
-</html>
 
+</html>

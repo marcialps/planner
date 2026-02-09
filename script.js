@@ -1,6 +1,6 @@
 // Dados e Configurações
-const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
-               'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
 const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
@@ -52,53 +52,53 @@ const frasesInspiradoras = {
 // Datas Comemorativas 2026
 const datasComemorativasDefault = {
     0: [ // Janeiro
-        {dia: 1, descricao: "Ano Novo", tipo: "feriado"},
-        {dia: 15, descricao: "Dia do Professor", tipo: "comemorativo"}
+        { dia: 1, descricao: "Ano Novo", tipo: "feriado" },
+        { dia: 15, descricao: "Dia do Professor", tipo: "comemorativo" }
     ],
     1: [ // Fevereiro
-        {dia: 8, descricao: "Carnaval", tipo: "comemorativo"},
-        {dia: 21, descricao: "Dia Internacional da Língua Materna", tipo: "comemorativo"}
+        { dia: 8, descricao: "Carnaval", tipo: "comemorativo" },
+        { dia: 21, descricao: "Dia Internacional da Língua Materna", tipo: "comemorativo" }
     ],
     2: [ // Março
-        {dia: 15, descricao: "Dia da Escola", tipo: "comemorativo"},
-        {dia: 27, descricao: "Dia do Teatro", tipo: "comemorativo"}
+        { dia: 15, descricao: "Dia da Escola", tipo: "comemorativo" },
+        { dia: 27, descricao: "Dia do Teatro", tipo: "comemorativo" }
     ],
     3: [ // Abril
-        {dia: 1, descricao: "Dia da Mentira", tipo: "comemorativo"},
-        {dia: 23, descricao: "Dia Mundial do Livro", tipo: "comemorativo"}
+        { dia: 1, descricao: "Dia da Mentira", tipo: "comemorativo" },
+        { dia: 23, descricao: "Dia Mundial do Livro", tipo: "comemorativo" }
     ],
     4: [ // Maio
-        {dia: 1, descricao: "Dia do Trabalhador", tipo: "feriado"},
-        {dia: 25, descricao: "Dia do Trabalhador Rural", tipo: "comemorativo"}
+        { dia: 1, descricao: "Dia do Trabalhador", tipo: "feriado" },
+        { dia: 25, descricao: "Dia do Trabalhador Rural", tipo: "comemorativo" }
     ],
     5: [ // Junho
-        {dia: 5, descricao: "Dia Mundial do Meio Ambiente", tipo: "comemorativo"},
-        {dia: 29, descricao: "Dia de São Pedro", tipo: "comemorativo"}
+        { dia: 5, descricao: "Dia Mundial do Meio Ambiente", tipo: "comemorativo" },
+        { dia: 29, descricao: "Dia de São Pedro", tipo: "comemorativo" }
     ],
     6: [ // Julho
-        {dia: 20, descricao: "Dia do Amigo", tipo: "comemorativo"},
-        {dia: 26, descricao: "Dia dos Avós", tipo: "comemorativo"}
+        { dia: 20, descricao: "Dia do Amigo", tipo: "comemorativo" },
+        { dia: 26, descricao: "Dia dos Avós", tipo: "comemorativo" }
     ],
     7: [ // Agosto
-        {dia: 11, descricao: "Dia do Estudante", tipo: "comemorativo"},
-        {dia: 25, descricao: "Dia do Soldado", tipo: "comemorativo"}
+        { dia: 11, descricao: "Dia do Estudante", tipo: "comemorativo" },
+        { dia: 25, descricao: "Dia do Soldado", tipo: "comemorativo" }
     ],
     8: [ // Setembro
-        {dia: 7, descricao: "Independência do Brasil", tipo: "feriado"},
-        {dia: 22, descricao: "Dia da Juventude", tipo: "comemorativo"}
+        { dia: 7, descricao: "Independência do Brasil", tipo: "feriado" },
+        { dia: 22, descricao: "Dia da Juventude", tipo: "comemorativo" }
     ],
     9: [ // Outubro
-        {dia: 15, descricao: "Dia do Professor", tipo: "comemorativo"},
-        {dia: 12, descricao: "Dia da Criança", tipo: "comemorativo"}
+        { dia: 15, descricao: "Dia do Professor", tipo: "comemorativo" },
+        { dia: 12, descricao: "Dia da Criança", tipo: "comemorativo" }
     ],
     10: [ // Novembro
-        {dia: 2, descricao: "Finados", tipo: "feriado"},
-        {dia: 25, descricao: "Dia Internacional pela Eliminação da Violência contra a Mulher", tipo: "comemorativo"}
+        { dia: 2, descricao: "Finados", tipo: "feriado" },
+        { dia: 25, descricao: "Dia Internacional pela Eliminação da Violência contra a Mulher", tipo: "comemorativo" }
     ],
     11: [ // Dezembro
-        {dia: 8, descricao: "Dia da Família", tipo: "comemorativo"},
-        {dia: 25, descricao: "Natal", tipo: "feriado"},
-        {dia: 31, descricao: "Ano Novo", tipo: "comemorativo"}
+        { dia: 8, descricao: "Dia da Família", tipo: "comemorativo" },
+        { dia: 25, descricao: "Natal", tipo: "feriado" },
+        { dia: 31, descricao: "Ano Novo", tipo: "comemorativo" }
     ]
 };
 
@@ -118,22 +118,24 @@ const tipoEventoCores = {
 let datasComemorativasData = null;
 let dataComemorativaContext = null;
 
-function obterDatasComemorativas() {
-    if (!datasComemorativasData) {
-        const armazenado = localStorage.getItem('datas_comemorativas');
-        if (armazenado) {
-            datasComemorativasData = JSON.parse(armazenado);
-        } else {
-            datasComemorativasData = JSON.parse(JSON.stringify(datasComemorativasDefault));
-            salvarDatasComemorativas();
-        }
+async function carregarDatasComemorativasData() {
+    const dados = await FirebaseService.getDatasComemorativas();
+    if (dados) {
+        datasComemorativasData = dados;
+    } else {
+        datasComemorativasData = JSON.parse(JSON.stringify(datasComemorativasDefault));
+        await salvarDatasComemorativas();
     }
-    return datasComemorativasData;
 }
 
-function salvarDatasComemorativas() {
+function obterDatasComemorativas() {
+    // Agora assume que já foi carregado no inicio
+    return datasComemorativasData || datasComemorativasDefault;
+}
+
+async function salvarDatasComemorativas() {
     if (datasComemorativasData) {
-        localStorage.setItem('datas_comemorativas', JSON.stringify(datasComemorativasData));
+        await FirebaseService.saveDatasComemorativas(datasComemorativasData);
     }
 }
 
@@ -144,7 +146,7 @@ function obterCorPorTipo(tipo) {
 }
 
 const aniversariosStorageKey = 'aniversarios_data_v2';
-const mesesAntigosAniversarios = ['Outubro','Novembro','Dezembro','Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro'];
+const mesesAntigosAniversarios = ['Outubro', 'Novembro', 'Dezembro', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro'];
 const nomeMesParaIndice = meses.reduce((acc, nome, idx) => {
     acc[nome] = idx;
     return acc;
@@ -155,60 +157,25 @@ function gerarId() {
     return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-function obterAniversariosData() {
-    if (!aniversariosData) {
-        const salvo = localStorage.getItem(aniversariosStorageKey);
-        if (salvo) {
-            aniversariosData = JSON.parse(salvo);
-        } else {
-            aniversariosData = migrarAniversariosAntigos();
-        }
-    }
-    if (!Array.isArray(aniversariosData) || aniversariosData.length !== 12) {
+async function carregarAniversariosData() {
+    const dados = await FirebaseService.getAniversarios();
+    if (dados) {
+        aniversariosData = dados;
+    } else {
         aniversariosData = Array.from({ length: 12 }, () => []);
+        await salvarAniversariosData();
     }
+}
+
+function obterAniversariosData() {
+    // Assume carregado no inicio
+    if (!aniversariosData) return Array.from({ length: 12 }, () => []);
     return aniversariosData;
 }
 
-function migrarAniversariosAntigos() {
-    const base = Array.from({ length: 12 }, () => []);
-    let migrou = false;
-    for (let i = 0; i < 12; i++) {
-        const chave = `aniversarios_${i}`;
-        const salvo = localStorage.getItem(chave);
-        if (salvo) {
-            migrou = true;
-            try {
-                const lista = JSON.parse(salvo);
-                const nomeMes = mesesAntigosAniversarios[i];
-                const mesIndex = nomeMesParaIndice[nomeMes] ?? i;
-                lista.forEach(item => {
-                    if (typeof item === 'string') {
-                        base[mesIndex].push({ id: gerarId(), nome: item, dia: '' });
-                    } else if (item && typeof item === 'object') {
-                        base[mesIndex].push({
-                            id: item.id || gerarId(),
-                            nome: item.nome || '',
-                            dia: item.dia || ''
-                        });
-                    }
-                });
-            } catch (e) {
-                console.warn('Não foi possível migrar aniversários antigos', e);
-            }
-            localStorage.removeItem(chave);
-        }
-    }
-    if (!migrou) {
-        return Array.from({ length: 12 }, () => []);
-    }
-    localStorage.setItem(aniversariosStorageKey, JSON.stringify(base));
-    return base;
-}
-
-function salvarAniversariosData() {
+async function salvarAniversariosData() {
     if (aniversariosData) {
-        localStorage.setItem(aniversariosStorageKey, JSON.stringify(aniversariosData));
+        await FirebaseService.saveAniversarios(aniversariosData);
     }
 }
 
@@ -237,16 +204,26 @@ const feriados2026 = {
 };
 
 // Inicialização
-document.addEventListener('DOMContentLoaded', function() {
-    // Verificar se já tem perfil salvo
+document.addEventListener('DOMContentLoaded', async function () {
+    // Inicializar Firebase Service (se necessário) ou apenas usar
+    try {
+        await FirebaseService.createInitialUser();
+    } catch (e) {
+        console.error("Erro ao criar usuário inicial", e);
+    }
+
+    // Verificar se já tem perfil salvo (agora via Firebase ou estado local temporário se quisessemos cache, mas vamos buscar direto)
+    // Para simplificar a migração, vamos manter a lógica de "perfilAtual" em memória/localStorage apenas para a ESCOLHA do perfil (sessão),
+    // mas os DADOS serão buscados do Firebase.
+
     const perfilSalvo = localStorage.getItem('perfilAtual');
     if (perfilSalvo) {
         perfilAtual = perfilSalvo;
-        mostrarConteudoPrincipal();
+        await mostrarConteudoPrincipal();
     } else {
         mostrarTelaLogin();
     }
-    
+
     // Configurar data atual para semana
     const hoje = new Date();
     const ano = hoje.getFullYear();
@@ -263,9 +240,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Funções de Dados Pessoais
-function salvarDadosPessoais() {
+async function salvarDadosPessoais() {
     if (!exigirCoordenador('Somente coordenadores podem atualizar estes dados.')) return;
-    const dadosExistentes = JSON.parse(localStorage.getItem('dadosPessoais') || '{}');
+    const dadosExistentes = await FirebaseService.getDadosPessoais() || {};
     const dados = {
         nome: document.getElementById('nome').value,
         escola: document.getElementById('escola').value,
@@ -276,30 +253,34 @@ function salvarDadosPessoais() {
         mensagem: document.getElementById('mensagem-boasvindas').value,
         foto: dadosExistentes.foto || ''
     };
-    
+
     const arquivoFoto = document.getElementById('foto-coordenador').files[0];
     if (arquivoFoto) {
         const reader = new FileReader();
-        reader.onload = function(event) {
+        reader.onload = async function (event) {
             dados.foto = event.target.result;
-            salvarDadosPessoaisStorage(dados);
+            await salvarDadosPessoaisStorage(dados);
         };
         reader.readAsDataURL(arquivoFoto);
     } else {
-        salvarDadosPessoaisStorage(dados);
+        await salvarDadosPessoaisStorage(dados);
     }
 }
 
-function salvarDadosPessoaisStorage(dados) {
-    localStorage.setItem('dadosPessoais', JSON.stringify(dados));
-    const inputFoto = document.getElementById('foto-coordenador');
-    if (inputFoto) inputFoto.value = '';
-    atualizarPerfilDisplay(dados);
-    alert('Dados pessoais salvos com sucesso!');
+async function salvarDadosPessoaisStorage(dados) {
+    const sucesso = await FirebaseService.saveDadosPessoais(dados);
+    if (sucesso) {
+        const inputFoto = document.getElementById('foto-coordenador');
+        if (inputFoto) inputFoto.value = '';
+        atualizarPerfilDisplay(dados);
+        alert('Dados pessoais salvos com sucesso!');
+    } else {
+        alert('Erro ao salvar dados pessoais via Firebase.');
+    }
 }
 
-function carregarDadosPessoais() {
-    const dados = JSON.parse(localStorage.getItem('dadosPessoais') || '{}');
+async function carregarDadosPessoais() {
+    const dados = await FirebaseService.getDadosPessoais() || {};
     if (document.getElementById('nome')) document.getElementById('nome').value = dados.nome || '';
     if (document.getElementById('escola')) document.getElementById('escola').value = dados.escola || '';
     if (document.getElementById('area-atuacao')) document.getElementById('area-atuacao').value = dados.areaAtuacao || '';
@@ -315,13 +296,13 @@ function atualizarPerfilDisplay(dados = {}) {
         ...perfilPlaceholder,
         ...dados
     };
-    
+
     const fotoEl = document.getElementById('foto-preview');
     if (fotoEl) {
         fotoEl.src = info.foto || fotoPlaceholder;
         fotoEl.alt = info.nome || 'Foto do Coordenador';
     }
-    
+
     const map = [
         ['display-nome', info.nome || perfilPlaceholder.nome],
         ['display-area', info.areaAtuacao || perfilPlaceholder.areaAtuacao],
@@ -347,7 +328,7 @@ function navegarAno(direcao) {
 function gerarCalendarioAnual() {
     const container = document.getElementById('calendarios-mensais');
     container.innerHTML = '';
-    
+
     for (let mes = 0; mes < 12; mes++) {
         const calendario = criarCalendarioMes(mes, anoAtual);
         container.appendChild(calendario);
@@ -357,14 +338,14 @@ function gerarCalendarioAnual() {
 function criarCalendarioMes(mes, ano) {
     const div = document.createElement('div');
     div.className = 'month-calendar';
-    
+
     const h3 = document.createElement('h3');
     h3.textContent = meses[mes];
     div.appendChild(h3);
-    
+
     const grid = document.createElement('div');
     grid.className = 'calendar-grid';
-    
+
     // Cabeçalho dos dias da semana
     diasSemana.forEach(dia => {
         const header = document.createElement('div');
@@ -372,18 +353,18 @@ function criarCalendarioMes(mes, ano) {
         header.textContent = dia;
         grid.appendChild(header);
     });
-    
+
     const primeiroDia = new Date(ano, mes, 1);
     const ultimoDia = new Date(ano, mes + 1, 0);
     const diasNoMes = ultimoDia.getDate();
     const diaSemanaInicio = primeiroDia.getDay();
-    
+
     // Espaços vazios antes do primeiro dia
     for (let i = 0; i < diaSemanaInicio; i++) {
         const empty = document.createElement('div');
         grid.appendChild(empty);
     }
-    
+
     // Dias do mês
     const hoje = new Date();
     const datasMes = obterDatasComemorativas()[mes] || [];
@@ -391,9 +372,9 @@ function criarCalendarioMes(mes, ano) {
     for (let dia = 1; dia <= diasNoMes; dia++) {
         const dayDiv = document.createElement('div');
         dayDiv.className = 'calendar-day';
-        
+
         const dataAtual = new Date(ano, mes, dia);
-        
+
         // Verificar eventos do dia
         const eventosDoDia = obterEventosDoDia(dia, mes, ano);
         if (eventosDoDia.length > 0) {
@@ -401,13 +382,13 @@ function criarCalendarioMes(mes, ano) {
             const primeiroEvento = eventosDoDia[0];
             dayDiv.title = `${eventosDoDia.length} agendamento(s) - ${primeiroEvento.titulo}`;
         }
-        
+
         // Criar estrutura do dia
         const dayNumber = document.createElement('div');
         dayNumber.className = 'day-number';
         dayNumber.textContent = dia;
         dayDiv.appendChild(dayNumber);
-        
+
         // Adicionar preview do evento se houver
         if (eventosDoDia.length > 0) {
             const preview = document.createElement('div');
@@ -415,28 +396,28 @@ function criarCalendarioMes(mes, ano) {
             preview.textContent = eventosDoDia[0].titulo.substring(0, 10) + (eventosDoDia[0].titulo.length > 10 ? '...' : '');
             dayDiv.appendChild(preview);
         }
-        
+
         // Verificar se é hoje
         if (dataAtual.toDateString() === hoje.toDateString()) {
             dayDiv.classList.add('today');
         }
-        
+
         // Verificar se é fim de semana
         if (dataAtual.getDay() === 0 || dataAtual.getDay() === 6) {
             dayDiv.classList.add('weekend');
         }
-        
+
         // Verificar se é feriado
         if (feriados2026[mes] && feriados2026[mes].includes(dia)) {
             dayDiv.classList.add('holiday');
         }
-        
+
         // Verificar se há data comemorativa
         const comemorativa = datasMes.find(d => d.dia === dia);
         if (comemorativa) {
             dayDiv.title = (dayDiv.title ? dayDiv.title + ' | ' : '') + comemorativa.descricao;
         }
-        
+
         const aniversariantesDia = aniversariosMes.filter(aniv => parseInt(aniv.dia, 10) === dia && aniv.nome);
         if (aniversariantesDia.length > 0) {
             dayDiv.classList.add('has-birthday');
@@ -447,14 +428,14 @@ function criarCalendarioMes(mes, ano) {
             const nomes = aniversariantesDia.map(aniv => `Aniversário ${aniv.nome}`).join(', ');
             dayDiv.title = (dayDiv.title ? dayDiv.title + ' | ' : '') + nomes;
         }
-        
+
         // Adicionar clique no dia
         dayDiv.onclick = () => verEventosDoDia(dia, mes, ano);
         dayDiv.style.cursor = 'pointer';
-        
+
         grid.appendChild(dayDiv);
     }
-    
+
     div.appendChild(grid);
     return div;
 }
@@ -464,15 +445,15 @@ function gerarAniversarios() {
     const container = document.getElementById('aniversarios-container');
     container.innerHTML = '';
     const dados = obterAniversariosData();
-    
+
     meses.forEach((mesNome, mesIndex) => {
         const div = document.createElement('div');
         div.className = 'aniversario-month';
-        
+
         const h3 = document.createElement('h3');
         h3.textContent = mesNome;
         div.appendChild(h3);
-        
+
         const lista = ordenarAniversarios(dados[mesIndex] || []);
         if (lista.length === 0) {
             const vazio = document.createElement('p');
@@ -483,7 +464,7 @@ function gerarAniversarios() {
             lista.forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'aniversario-item';
-                
+
                 const display = document.createElement('div');
                 display.className = 'aniversario-display';
                 display.innerHTML = `
@@ -491,7 +472,7 @@ function gerarAniversarios() {
                     <div class="aniversario-nome"><span class="emoji">🎈</span>${item.nome || 'Nome não informado'}</div>
                 `;
                 itemDiv.appendChild(display);
-                
+
                 const editor = document.createElement('div');
                 editor.className = 'aniversario-editor coord-only';
                 editor.innerHTML = `
@@ -504,20 +485,20 @@ function gerarAniversarios() {
                     <button class="btn-small btn-delete" onclick="removerAniversario(${mesIndex}, '${item.id}')">Remover</button>
                 `;
                 itemDiv.appendChild(editor);
-                
+
                 div.appendChild(itemDiv);
             });
         }
-        
+
         const btnAdd = document.createElement('button');
         btnAdd.className = 'btn-secondary coord-only';
         btnAdd.textContent = '+ Adicionar Aniversariante';
         btnAdd.onclick = () => adicionarAniversario(mesIndex);
         div.appendChild(btnAdd);
-        
+
         container.appendChild(div);
     });
-    
+
     if (!isCoordenador()) {
         aplicarRestricoesProfessor();
     }
@@ -556,12 +537,14 @@ function removerAniversario(mesIndex, itemId) {
 }
 
 // Funções de Planner Mensal
-function carregarPlannerMensal() {
+async function carregarPlannerMensal() {
     const mesIndex = parseInt(document.getElementById('mes-planner').value);
     const container = document.getElementById('planner-mensal-content');
-    
-    const dados = JSON.parse(localStorage.getItem(`planner_mensal_${mesIndex}`) || '{}');
-    
+
+    container.innerHTML = '<p class="info-text">Carregando...</p>';
+
+    const dados = await FirebaseService.getPlannerMensal(mesIndex) || {};
+
     container.innerHTML = `
         <div class="frase-inspiradora">
             ${frasesInspiradoras[mesIndex]}
@@ -594,13 +577,13 @@ function carregarPlannerMensal() {
         
         <button class="btn-primary coord-only" onclick="salvarPlannerMensal(${mesIndex})">Salvar Planner Mensal</button>
     `;
-    
+
     if (!isCoordenador()) {
         aplicarRestricoesProfessor();
     }
 }
 
-function salvarPlannerMensal(mesIndex) {
+async function salvarPlannerMensal(mesIndex) {
     if (!exigirCoordenador()) return;
     const dados = {
         visaoGeral: document.getElementById('visao-geral').value,
@@ -609,13 +592,18 @@ function salvarPlannerMensal(mesIndex) {
         lembretes: document.getElementById('lembretes').value,
         metas: document.getElementById('metas').value
     };
-    localStorage.setItem(`planner_mensal_${mesIndex}`, JSON.stringify(dados));
-    alert('Planner mensal salvo com sucesso!');
+
+    const sucesso = await FirebaseService.savePlannerMensal(mesIndex, dados);
+    if (sucesso) {
+        alert('Planner mensal salvo com sucesso!');
+    } else {
+        alert('Erro ao salvar planner mensal.');
+    }
 }
 
 // Funções de Planejamento Semanal
-function carregarPlanejamentoSemanal() {
-    sincronizarSemanaSelector();
+async function carregarPlanejamentoSemanal() {
+    await sincronizarSemanaSelector();
     const semanaInput = document.getElementById('semana-planner').value;
     const container = document.getElementById('planejamento-semanal-content');
     if (!semanaInput) {
@@ -623,17 +611,19 @@ function carregarPlanejamentoSemanal() {
         return;
     }
     const [ano, semana] = semanaInput.split('-W').map(Number);
-    
-    const dados = JSON.parse(localStorage.getItem(`planejamento_semanal_${ano}_${semana}`) || '{}');
-    
+
+    container.innerHTML = '<p class="info-text">Carregando...</p>';
+
+    const dados = await FirebaseService.getPlanejamentoSemanal(ano, semana) || {};
+
     const dias = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-    
+
     container.innerHTML = '';
-    
+
     dias.forEach((diaNome, index) => {
         const diaDiv = document.createElement('div');
         diaDiv.className = 'dia-semana';
-        
+
         diaDiv.innerHTML = `
             <h3>${diaNome}</h3>
             <textarea id="dia_${index}" placeholder="Anotações, horários, atividades e reuniões">${dados[`dia_${index}`] || ''}</textarea>
@@ -646,26 +636,26 @@ function carregarPlanejamentoSemanal() {
                 <input type="text" id="prioridade3_${index}" value="${dados[`prioridade3_${index}`] || ''}" placeholder="Terceira prioridade do dia">
             </div>
         `;
-        
+
         container.appendChild(diaDiv);
     });
-    
+
     container.innerHTML += `
         <div style="grid-column: 1 / -1;">
             <button class="btn-primary coord-only" onclick="salvarPlanejamentoSemanal()">Salvar Planejamento Semanal</button>
         </div>
     `;
-    
+
     if (!isCoordenador()) {
         aplicarRestricoesProfessor();
     }
 }
 
-function salvarPlanejamentoSemanal() {
+async function salvarPlanejamentoSemanal() {
     if (!exigirCoordenador()) return;
     const semanaInput = document.getElementById('semana-planner').value;
     const [ano, semana] = semanaInput.split('-W').map(Number);
-    
+
     const dados = {};
     for (let i = 0; i < 6; i++) {
         dados[`dia_${i}`] = document.getElementById(`dia_${i}`).value;
@@ -673,35 +663,22 @@ function salvarPlanejamentoSemanal() {
         dados[`prioridade2_${i}`] = document.getElementById(`prioridade2_${i}`).value;
         dados[`prioridade3_${i}`] = document.getElementById(`prioridade3_${i}`).value;
     }
-    
-    localStorage.setItem(`planejamento_semanal_${ano}_${semana}`, JSON.stringify(dados));
-    registrarSemanaPlanejamento(ano, semana);
-    sincronizarSemanaSelector();
-    alert('Planejamento semanal salvo com sucesso!');
+
+    const sucesso = await FirebaseService.savePlanejamentoSemanal(ano, semana, dados);
+    if (sucesso) {
+        await sincronizarSemanaSelector();
+        alert('Planejamento semanal salvo com sucesso!');
+    } else {
+        alert('Erro ao salvar planejamento semanal.');
+    }
 }
 
-function listarSemanasPlanejamento() {
-    const registro = new Set(JSON.parse(localStorage.getItem('planejamento_semanal_registro') || '[]'));
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith('planejamento_semanal_')) {
-            const partes = key.split('_');
-            const ano = partes[2];
-            const semana = partes[3];
-            if (ano && semana) {
-                const valor = `${ano}-W${String(semana).padStart(2, '0')}`;
-                registro.add(valor);
-            }
-        }
-    }
-    return Array.from(registro).sort();
+async function listarSemanasPlanejamento() {
+    return await FirebaseService.getSemanasRegistradas();
 }
 
 function registrarSemanaPlanejamento(ano, semana) {
-    const registro = new Set(JSON.parse(localStorage.getItem('planejamento_semanal_registro') || '[]'));
-    const valor = `${ano}-W${String(semana).padStart(2, '0')}`;
-    registro.add(valor);
-    localStorage.setItem('planejamento_semanal_registro', JSON.stringify(Array.from(registro)));
+    // Deprecado: FirebaseService.savePlanejamentoSemanal já lida com o registro
 }
 
 function formatarSemanaLabel(valor) {
@@ -710,11 +687,11 @@ function formatarSemanaLabel(valor) {
     return `Semana ${semana} / ${ano}`;
 }
 
-function sincronizarSemanaSelector() {
+async function sincronizarSemanaSelector() {
     const select = document.getElementById('semana-planner-select');
     const input = document.getElementById('semana-planner');
     if (!select || !input) return;
-    
+
     if (isCoordenador()) {
         select.style.display = 'none';
         select.innerHTML = '';
@@ -722,10 +699,10 @@ function sincronizarSemanaSelector() {
         input.style.display = 'inline-block';
         return;
     }
-    
-    const semanas = listarSemanasPlanejamento();
+
+    const semanas = await listarSemanasPlanejamento();
     select.innerHTML = '';
-    
+
     if (semanas.length === 0) {
         const option = document.createElement('option');
         option.value = '';
@@ -746,7 +723,7 @@ function sincronizarSemanaSelector() {
         }
         select.value = input.value;
     }
-    
+
     input.style.display = 'none';
     select.style.display = 'inline-block';
 }
@@ -760,43 +737,52 @@ function selecionarSemanaExistente() {
 }
 
 // Funções de Planejamento Diário
-function salvarAcompanhamentoAluno() {
+async function salvarAcompanhamentoAluno() {
     if (!exigirCoordenador()) return;
-    const acompanhamento = {
-        data: document.getElementById('data-acompanhamento').value,
-        aluno: document.getElementById('aluno-nome').value,
-        turma: document.getElementById('aluno-turma').value,
-        motivo: document.getElementById('motivo-observacao').value,
-        acoes: document.getElementById('acoes-tomadas').value,
-        proximosPassos: document.getElementById('proximos-passos').value,
-        timestamp: new Date().toISOString()
-    };
-    
-    if (!acompanhamento.data || !acompanhamento.aluno) {
-        alert('Por favor, preencha pelo menos a data e o nome do aluno.');
+    const aluno = document.getElementById('aluno-nome').value;
+    const turma = document.getElementById('aluno-turma').value;
+    const motivo = document.getElementById('motivo-observacao').value;
+    const acoes = document.getElementById('acoes-tomadas').value;
+    const data = document.getElementById('data-ocorrencia').value;
+
+    if (!aluno || !turma || !motivo || !data) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
         return;
     }
-    
-    const acompanhamentos = JSON.parse(localStorage.getItem('acompanhamentos_alunos') || '[]');
-    acompanhamentos.push(acompanhamento);
-    localStorage.setItem('acompanhamentos_alunos', JSON.stringify(acompanhamentos));
-    
-    // Limpar formulário
-    document.getElementById('data-acompanhamento').value = '';
-    document.getElementById('aluno-nome').value = '';
-    document.getElementById('aluno-turma').value = '';
-    document.getElementById('motivo-observacao').value = '';
-    document.getElementById('acoes-tomadas').value = '';
-    document.getElementById('proximos-passos').value = '';
-    
-    carregarAcompanhamentos();
-    alert('Acompanhamento salvo com sucesso!');
+
+    const acompanhamento = {
+        aluno,
+        turma,
+        motivo,
+        acoes,
+        proximosPassos: document.getElementById('proximos-passos').value,
+        data,
+        timestamp: new Date().toISOString()
+    };
+
+    const sucesso = await FirebaseService.addAcompanhamentoAluno(acompanhamento);
+    if (sucesso) {
+        // Limpar formulário
+        document.getElementById('aluno-nome').value = '';
+        document.getElementById('aluno-turma').value = '';
+        document.getElementById('motivo-observacao').value = '';
+        document.getElementById('acoes-tomadas').value = '';
+        document.getElementById('proximos-passos').value = '';
+        document.getElementById('data-ocorrencia').value = '';
+
+        await carregarAcompanhamentos();
+        alert('Acompanhamento salvo com sucesso!');
+    } else {
+        alert('Erro ao salvar acompanhamento.');
+    }
 }
 
-function carregarAcompanhamentos() {
+async function carregarAcompanhamentos() {
     const container = document.getElementById('lista-acompanhamentos');
-    const acompanhamentos = JSON.parse(localStorage.getItem('acompanhamentos_alunos') || '[]');
-    
+    container.innerHTML = '<p class="info-text">Carregando...</p>';
+
+    const acompanhamentos = await FirebaseService.getAcompanhamentosAlunos() || [];
+
     if (acompanhamentos.length === 0) {
         container.innerHTML = '<p class="info-text">Nenhum acompanhamento registrado ainda.</p>';
         if (!isCoordenador()) {
@@ -804,13 +790,17 @@ function carregarAcompanhamentos() {
         }
         return;
     }
-    
+
     container.innerHTML = '<h3>Acompanhamentos Registrados</h3>';
-    
-    acompanhamentos.reverse().forEach((acomp, index) => {
+
+    // Ordenar por data (mais recente primeiro) se não vier ordenado
+    acompanhamentos.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    acompanhamentos.forEach((acomp) => {
         const div = document.createElement('div');
         div.className = 'acompanhamento-item';
-        
+
+        // Usar ID do documento para remover
         div.innerHTML = `
             <h4>${acomp.aluno} - ${acomp.turma}</h4>
             <div class="meta">Data: ${formatarData(acomp.data)}</div>
@@ -819,24 +809,26 @@ function carregarAcompanhamentos() {
                 <p><strong>Ações Tomadas:</strong> ${acomp.acoes}</p>
                 <p><strong>Próximos Passos:</strong> ${acomp.proximosPassos}</p>
             </div>
-            <button class="btn-secondary coord-only" onclick="removerAcompanhamento(${acompanhamentos.length - 1 - index})">Remover</button>
+            <button class="btn-secondary coord-only" onclick="removerAcompanhamento('${acomp.id}')">Remover</button>
         `;
-        
+
         container.appendChild(div);
     });
-    
+
     if (!isCoordenador()) {
         aplicarRestricoesProfessor();
     }
 }
 
-function removerAcompanhamento(index) {
+async function removerAcompanhamento(id) {
     if (!exigirCoordenador()) return;
     if (confirm('Deseja realmente remover este acompanhamento?')) {
-        const acompanhamentos = JSON.parse(localStorage.getItem('acompanhamentos_alunos') || '[]');
-        acompanhamentos.splice(index, 1);
-        localStorage.setItem('acompanhamentos_alunos', JSON.stringify(acompanhamentos));
-        carregarAcompanhamentos();
+        const sucesso = await FirebaseService.deleteAcompanhamentoAluno(id);
+        if (sucesso) {
+            await carregarAcompanhamentos();
+        } else {
+            alert('Erro ao remover acompanhamento.');
+        }
     }
 }
 
@@ -844,14 +836,14 @@ function removerAcompanhamento(index) {
 function abrirTab(tabName, buttonElement) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    
+
     document.getElementById(tabName).classList.add('active');
     if (buttonElement) {
         buttonElement.classList.add('active');
     }
 }
 
-function salvarReuniao() {
+async function salvarReuniao() {
     if (!exigirCoordenador()) return;
     const reuniao = {
         data: document.getElementById('data-reuniao').value,
@@ -860,30 +852,33 @@ function salvarReuniao() {
         ata: document.getElementById('ata-reuniao').value,
         timestamp: new Date().toISOString()
     };
-    
+
     if (!reuniao.data) {
         alert('Por favor, preencha a data da reunião.');
         return;
     }
-    
-    const reunioes = JSON.parse(localStorage.getItem('reunioes_pedagogicas') || '[]');
-    reunioes.push(reuniao);
-    localStorage.setItem('reunioes_pedagogicas', JSON.stringify(reunioes));
-    
-    // Limpar formulário
-    document.getElementById('data-reuniao').value = '';
-    document.getElementById('participantes').value = '';
-    document.getElementById('pauta-reuniao').value = '';
-    document.getElementById('ata-reuniao').value = '';
-    
-    carregarReunioes();
-    alert('Reunião salva com sucesso!');
+
+    const sucesso = await FirebaseService.addReuniaoPedagogica(reuniao);
+    if (sucesso) {
+        // Limpar formulário
+        document.getElementById('data-reuniao').value = '';
+        document.getElementById('participantes').value = '';
+        document.getElementById('pauta-reuniao').value = '';
+        document.getElementById('ata-reuniao').value = '';
+
+        await carregarReunioes();
+        alert('Reunião salva com sucesso!');
+    } else {
+        alert('Erro ao salvar reunião.');
+    }
 }
 
-function carregarReunioes() {
+async function carregarReunioes() {
     const container = document.getElementById('lista-reunioes');
-    const reunioes = JSON.parse(localStorage.getItem('reunioes_pedagogicas') || '[]');
-    
+    container.innerHTML = '<p class="info-text">Carregando...</p>';
+
+    const reunioes = await FirebaseService.getReunioesPedagogicas() || [];
+
     if (reunioes.length === 0) {
         container.innerHTML = '<p class="info-text">Nenhuma reunião registrada ainda.</p>';
         if (!isCoordenador()) {
@@ -891,13 +886,16 @@ function carregarReunioes() {
         }
         return;
     }
-    
+
     container.innerHTML = '<h3>Reuniões Registradas</h3>';
-    
-    reunioes.reverse().forEach((reuniao, index) => {
+
+    // Ordenar por data (mais recente primeiro)
+    reunioes.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    reunioes.forEach((reuniao) => {
         const div = document.createElement('div');
         div.className = 'reuniao-item';
-        
+
         div.innerHTML = `
             <h4>Reunião de ${formatarData(reuniao.data)}</h4>
             <div class="meta">Participantes: ${reuniao.participantes}</div>
@@ -905,59 +903,58 @@ function carregarReunioes() {
                 <p><strong>Pauta:</strong> ${reuniao.pauta}</p>
                 <p><strong>Ata:</strong> ${reuniao.ata}</p>
             </div>
-            <button class="btn-secondary coord-only" onclick="removerReuniao(${reunioes.length - 1 - index})">Remover</button>
+            <button class="btn-secondary coord-only" onclick="removerReuniao('${reuniao.id}')">Remover</button>
         `;
-        
+
         container.appendChild(div);
     });
-    
+
     if (!isCoordenador()) {
         aplicarRestricoesProfessor();
     }
 }
 
-function removerReuniao(index) {
+async function removerReuniao(id) {
     if (!exigirCoordenador()) return;
     if (confirm('Deseja realmente remover esta reunião?')) {
-        const reunioes = JSON.parse(localStorage.getItem('reunioes_pedagogicas') || '[]');
-        reunioes.splice(index, 1);
-        localStorage.setItem('reunioes_pedagogicas', JSON.stringify(reunioes));
-        carregarReunioes();
+        const sucesso = await FirebaseService.deleteReuniaoPedagogica(id);
+        if (sucesso) {
+            await carregarReunioes();
+        } else {
+            alert('Erro ao remover reunião.');
+        }
     }
 }
 
-function salvarAvaliacaoMensal() {
+async function salvarAvaliacaoMensal() {
     if (!exigirCoordenador()) return;
+    const mes = parseInt(document.getElementById('mes-avaliacao').value);
     const avaliacao = {
-        mes: parseInt(document.getElementById('mes-avaliacao').value),
+        mes: mes,
         notas: document.getElementById('notas-desempenho').value,
         decisoes: document.getElementById('decisoes-pedagogicas').value,
         timestamp: new Date().toISOString()
     };
-    
-    const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes_mensais') || '[]');
-    const indexExistente = avaliacoes.findIndex(a => a.mes === avaliacao.mes);
-    
-    if (indexExistente >= 0) {
-        avaliacoes[indexExistente] = avaliacao;
+
+    const sucesso = await FirebaseService.saveAvaliacaoMensal(mes, avaliacao);
+    if (sucesso) {
+        // Limpar formulário
+        document.getElementById('notas-desempenho').value = '';
+        document.getElementById('decisoes-pedagogicas').value = '';
+
+        await carregarAvaliacoes();
+        alert('Avaliação mensal salva com sucesso!');
     } else {
-        avaliacoes.push(avaliacao);
+        alert('Erro ao salvar avaliação mensal.');
     }
-    
-    localStorage.setItem('avaliacoes_mensais', JSON.stringify(avaliacoes));
-    
-    // Limpar formulário
-    document.getElementById('notas-desempenho').value = '';
-    document.getElementById('decisoes-pedagogicas').value = '';
-    
-    carregarAvaliacoes();
-    alert('Avaliação mensal salva com sucesso!');
 }
 
-function carregarAvaliacoes() {
+async function carregarAvaliacoes() {
     const container = document.getElementById('lista-avaliacoes');
-    const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes_mensais') || '[]');
-    
+    container.innerHTML = '<p class="info-text">Carregando...</p>';
+
+    const avaliacoes = await FirebaseService.getAvaliacoesMensais() || [];
+
     if (avaliacoes.length === 0) {
         container.innerHTML = '<p class="info-text">Nenhuma avaliação mensal registrada ainda.</p>';
         if (!isCoordenador()) {
@@ -965,13 +962,13 @@ function carregarAvaliacoes() {
         }
         return;
     }
-    
+
     container.innerHTML = '<h3>Avaliações Mensais</h3>';
-    
+
     avaliacoes.sort((a, b) => a.mes - b.mes).forEach((avaliacao) => {
         const div = document.createElement('div');
         div.className = 'avaliacao-item';
-        
+
         div.innerHTML = `
             <h4>${meses[avaliacao.mes]}</h4>
             <div class="content">
@@ -980,50 +977,50 @@ function carregarAvaliacoes() {
             </div>
             <button class="btn-secondary coord-only" onclick="editarAvaliacao(${avaliacao.mes})">Editar</button>
         `;
-        
+
         container.appendChild(div);
     });
-    
+
     if (!isCoordenador()) {
         aplicarRestricoesProfessor();
     }
 }
 
-function editarAvaliacao(mes) {
+async function editarAvaliacao(mes) {
     if (!exigirCoordenador()) return;
-    const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes_mensais') || '[]');
+    const avaliacoes = await FirebaseService.getAvaliacoesMensais() || [];
     const avaliacao = avaliacoes.find(a => a.mes === mes);
-    
+
     if (avaliacao) {
         document.getElementById('mes-avaliacao').value = avaliacao.mes;
         document.getElementById('notas-desempenho').value = avaliacao.notas;
         document.getElementById('decisoes-pedagogicas').value = avaliacao.decisoes;
-        
+
         // Scroll para o formulário
         document.getElementById('avaliacao-mensal').scrollIntoView({ behavior: 'smooth' });
     }
 }
 
 // Funções de Datas Comemorativas
-function gerarDatasComemorativas() {
+async function gerarDatasComemorativas() {
     const container = document.getElementById('datas-comemorativas-content');
     container.innerHTML = '';
     const datas = obterDatasComemorativas();
     const aniversarios = obterAniversariosData();
     let atualizou = false;
-    
+
     meses.forEach((mesNome, mesIndex) => {
         const div = document.createElement('div');
         div.className = 'datas-month';
-        
+
         const h3 = document.createElement('h3');
         h3.textContent = mesNome;
         div.appendChild(h3);
-        
+
         const eventos = (datas[mesIndex] || []).sort((a, b) => a.dia - b.dia);
         const aniversariosMes = ordenarAniversarios(aniversarios[mesIndex] || []).filter(a => a.nome && a.dia);
         let temConteudo = false;
-        
+
         if (eventos.length > 0) {
             temConteudo = true;
             eventos.forEach((evento, eventoIndex) => {
@@ -1031,11 +1028,11 @@ function gerarDatasComemorativas() {
                     evento.cor = obterCorPorTipo(evento.tipo);
                     atualizou = true;
                 }
-                
+
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'data-item';
                 itemDiv.style.borderLeftColor = evento.cor;
-                
+
                 itemDiv.innerHTML = `
                     <div class="data-linha">
                         <span class="data">${String(evento.dia).padStart(2, '0')}/${String(mesIndex + 1).padStart(2, '0')}</span>
@@ -1043,37 +1040,37 @@ function gerarDatasComemorativas() {
                     </div>
                     <div class="descricao">${evento.descricao}</div>
                 `;
-                
+
                 if (isCoordenador()) {
                     const actions = document.createElement('div');
                     actions.className = 'data-actions coord-only';
-                    
+
                     const btnEdit = document.createElement('button');
                     btnEdit.className = 'btn-small btn-edit';
                     btnEdit.textContent = 'Editar';
                     btnEdit.onclick = () => abrirModalDataComemorativa(mesIndex, eventoIndex);
-                    
+
                     const btnDelete = document.createElement('button');
                     btnDelete.className = 'btn-small btn-delete';
                     btnDelete.textContent = 'Excluir';
                     btnDelete.onclick = () => removerDataComemorativa(mesIndex, eventoIndex);
-                    
+
                     actions.appendChild(btnEdit);
                     actions.appendChild(btnDelete);
                     itemDiv.appendChild(actions);
                 }
-                
+
                 div.appendChild(itemDiv);
             });
         }
-        
+
         if (aniversariosMes.length > 0) {
             temConteudo = true;
             const titulo = document.createElement('p');
             titulo.className = 'datas-subtitle';
             titulo.textContent = 'Aniversariantes';
             div.appendChild(titulo);
-            
+
             aniversariosMes.forEach(aniv => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'data-item birthday-item';
@@ -1088,14 +1085,14 @@ function gerarDatasComemorativas() {
                 div.appendChild(itemDiv);
             });
         }
-        
+
         if (!temConteudo) {
             const empty = document.createElement('p');
             empty.className = 'info-text';
             empty.textContent = 'Nenhuma data comemorativa neste mês.';
             div.appendChild(empty);
         }
-        
+
         if (isCoordenador()) {
             const btnAdd = document.createElement('button');
             btnAdd.className = 'btn-secondary coord-only';
@@ -1103,12 +1100,12 @@ function gerarDatasComemorativas() {
             btnAdd.onclick = () => abrirModalDataComemorativa(mesIndex);
             div.appendChild(btnAdd);
         }
-        
+
         container.appendChild(div);
     });
-    
+
     if (atualizou) {
-        salvarDatasComemorativas();
+        await salvarDatasComemorativas();
     }
 }
 
@@ -1124,17 +1121,17 @@ function abrirModalDataComemorativa(mesIndex, eventoIndex = null) {
     const datas = obterDatasComemorativas();
     const eventosMes = datas[mesIndex] || [];
     const evento = eventoIndex !== null ? eventosMes[eventoIndex] : { dia: '', descricao: '', tipo: 'comemorativo', cor: obterCorPorTipo('comemorativo') };
-    
+
     dataComemorativaContext = { mesIndex, eventoIndex };
-    
+
     document.getElementById('mes-evento-label').value = meses[mesIndex];
     document.getElementById('data-dia').value = evento.dia || '';
     document.getElementById('data-descricao').value = evento.descricao || '';
     document.getElementById('tipo-data').value = (evento.tipo || 'comemorativo');
     document.getElementById('cor-data').value = evento.cor || obterCorPorTipo(evento.tipo);
-    
+
     modal.classList.add('active');
-    modal.onclick = function(e) {
+    modal.onclick = function (e) {
         if (e.target === modal) {
             fecharModalDataComemorativa();
         }
@@ -1152,28 +1149,28 @@ function fecharModalDataComemorativa() {
 function salvarDataComemorativa() {
     if (!exigirCoordenador()) return;
     if (!dataComemorativaContext) return;
-    
+
     const dia = parseInt(document.getElementById('data-dia').value, 10);
     const descricao = document.getElementById('data-descricao').value.trim();
     const tipo = document.getElementById('tipo-data').value || 'comemorativo';
     const cor = document.getElementById('cor-data').value || obterCorPorTipo(tipo);
-    
+
     if (!dia || dia < 1 || dia > 31 || !descricao) {
         alert('Informe o dia (1 a 31) e a descrição do evento.');
         return;
     }
-    
+
     const datas = obterDatasComemorativas();
     datas[dataComemorativaContext.mesIndex] = datas[dataComemorativaContext.mesIndex] || [];
     const eventosMes = datas[dataComemorativaContext.mesIndex];
     const evento = { dia, descricao, tipo, cor };
-    
+
     if (dataComemorativaContext.eventoIndex !== null) {
         eventosMes[dataComemorativaContext.eventoIndex] = evento;
     } else {
         eventosMes.push(evento);
     }
-    
+
     salvarDatasComemorativas();
     gerarDatasComemorativas();
     fecharModalDataComemorativa();
@@ -1182,7 +1179,7 @@ function salvarDataComemorativa() {
 function removerDataComemorativa(mesIndex, eventoIndex) {
     if (!exigirCoordenador()) return;
     if (!confirm('Deseja remover esta data comemorativa?')) return;
-    
+
     const datas = obterDatasComemorativas();
     datas[mesIndex] = datas[mesIndex] || [];
     datas[mesIndex].splice(eventoIndex, 1);
@@ -1214,10 +1211,10 @@ function getWeekNumber(date) {
 }
 
 // Navegação suave
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     setTimeout(() => {
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetSection = document.querySelector(targetId);
@@ -1236,27 +1233,68 @@ function mostrarTelaLogin() {
     document.getElementById('main-content').style.display = 'none';
 }
 
-function mostrarConteudoPrincipal() {
+async function mostrarConteudoPrincipal() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
-    
+
     atualizarInterfacePorPerfil();
-    carregarDadosPessoais();
+
+    // Carregar dados iniciais essenciais para renderização
+    await Promise.all([
+        carregarDadosPessoais(),
+        carregarDatasComemorativasData(),
+        carregarAniversariosData()
+    ]);
+
     gerarCalendarioAnual();
     gerarAniversarios();
-    carregarPlannerMensal();
-    carregarPlanejamentoSemanal();
-    sincronizarSemanaSelector();
-    carregarAcompanhamentos();
-    carregarReunioes();
-    carregarAvaliacoes();
-    gerarDatasComemorativas();
+    await carregarPlannerMensal();
+    await carregarPlanejamentoSemanal();
+    await sincronizarSemanaSelector();
+    await carregarAcompanhamentos();
+    await carregarReunioes();
+    await carregarAvaliacoes();
+    await gerarDatasComemorativas();
 }
 
 function selecionarPerfil(perfil) {
-    perfilAtual = perfil;
-    localStorage.setItem('perfilAtual', perfil);
-    mostrarConteudoPrincipal();
+    if (perfil === 'coordenador') {
+        abrirModalLogin();
+    } else {
+        perfilAtual = perfil;
+        localStorage.setItem('perfilAtual', perfil);
+        mostrarConteudoPrincipal();
+    }
+}
+
+function abrirModalLogin() {
+    document.getElementById('modal-login').classList.add('active');
+}
+
+function fecharModalLogin() {
+    document.getElementById('modal-login').classList.remove('active');
+    document.getElementById('login-usuario').value = '';
+    document.getElementById('login-senha').value = '';
+}
+
+async function fazerLogin() {
+    const usuario = document.getElementById('login-usuario').value;
+    const senha = document.getElementById('login-senha').value;
+
+    if (!usuario || !senha) {
+        alert('Por favor, preencha usuário e senha.');
+        return;
+    }
+
+    const valido = await FirebaseService.checkLogin(usuario, senha);
+    if (valido) {
+        perfilAtual = 'coordenador';
+        localStorage.setItem('perfilAtual', 'coordenador');
+        fecharModalLogin();
+        mostrarConteudoPrincipal();
+    } else {
+        alert('Usuário ou senha incorretos.');
+    }
 }
 
 function trocarPerfil() {
@@ -1272,35 +1310,35 @@ function atualizarInterfacePorPerfil() {
     if (indicator) {
         indicator.textContent = perfilAtual === 'coordenador' ? '👤 Coordenador' : '👨‍🏫 Professor';
     }
-    
+
     const body = document.body;
     const formDados = document.getElementById('form-dados-pessoais');
     if (perfilAtual === 'professor') {
         body.classList.add('modo-professor');
         if (formDados) formDados.style.display = 'none';
-        
+
         document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(campo => {
             if (!campo.id.includes('comentario') && !campo.id.includes('novo-comentario')) {
                 campo.setAttribute('readonly', 'readonly');
             }
         });
         document.querySelectorAll('input[type="file"]').forEach(campo => campo.disabled = true);
-        
+
         const btnNovoAgendamento = document.getElementById('btn-novo-agendamento');
         if (btnNovoAgendamento) btnNovoAgendamento.style.display = 'none';
     } else {
         body.classList.remove('modo-professor');
         if (formDados) formDados.style.display = 'block';
-        
+
         document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(campo => {
             campo.removeAttribute('readonly');
         });
         document.querySelectorAll('input[type="file"]').forEach(campo => campo.disabled = false);
-        
+
         const btnNovoAgendamento = document.getElementById('btn-novo-agendamento');
         if (btnNovoAgendamento) btnNovoAgendamento.style.display = 'inline-block';
     }
-    
+
     aplicarRestricoesProfessor();
     sincronizarSemanaSelector();
 }
@@ -1312,24 +1350,24 @@ function abrirModalAgendamento(data, mes, ano) {
         alert('Apenas coordenadores podem criar agendamentos.');
         return;
     }
-    
+
     eventoEditando = null;
     const modal = document.getElementById('modal-agendamento');
     document.getElementById('evento-data').value = data || '';
     document.getElementById('evento-horario').value = '';
     document.getElementById('evento-titulo').value = '';
     document.getElementById('evento-descricao').value = '';
-    
+
     // Se data foi passada, formatar corretamente
     if (data && mes !== undefined && ano !== undefined) {
         const dataFormatada = `${ano}-${String(mes + 1).padStart(2, '0')}-${String(data).padStart(2, '0')}`;
         document.getElementById('evento-data').value = dataFormatada;
     }
-    
+
     modal.classList.add('active');
-    
+
     // Fechar ao clicar fora do modal
-    modal.onclick = function(e) {
+    modal.onclick = function (e) {
         if (e.target === modal) {
             fecharModalAgendamento();
         }
@@ -1341,46 +1379,45 @@ function fecharModalAgendamento() {
     eventoEditando = null;
 }
 
-function salvarAgendamento() {
+async function salvarAgendamento() {
     if (!exigirCoordenador()) return;
     const evento = {
-        id: eventoEditando ? eventoEditando.id : Date.now(),
+        id: eventoEditando ? eventoEditando.id : Date.now().toString(),
         data: document.getElementById('evento-data').value,
         horario: document.getElementById('evento-horario').value,
         titulo: document.getElementById('evento-titulo').value,
         descricao: document.getElementById('evento-descricao').value,
         timestamp: new Date().toISOString()
     };
-    
+
     if (!evento.data || !evento.titulo) {
         alert('Por favor, preencha pelo menos a data e o título do evento.');
         return;
     }
-    
-    const eventos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
-    
+
+    let sucesso = false;
     if (eventoEditando) {
-        const index = eventos.findIndex(e => e.id === eventoEditando.id);
-        if (index >= 0) {
-            eventos[index] = evento;
-        }
+        sucesso = await FirebaseService.updateAgendamento(evento);
     } else {
-        eventos.push(evento);
+        sucesso = await FirebaseService.addAgendamento(evento);
     }
-    
-    localStorage.setItem('agendamentos', JSON.stringify(eventos));
-    fecharModalAgendamento();
-    gerarCalendarioAnual();
-    
-    // Mostrar o evento recém-criado no painel
-    const data = new Date(evento.data);
-    setTimeout(() => {
-        verEventosDoDia(data.getDate(), data.getMonth(), data.getFullYear());
-    }, 300);
+
+    if (sucesso) {
+        fecharModalAgendamento();
+        gerarCalendarioAnual();
+
+        // Mostrar o evento recém-criado no painel
+        const data = new Date(evento.data);
+        setTimeout(() => {
+            verEventosDoDia(data.getDate(), data.getMonth(), data.getFullYear());
+        }, 300);
+    } else {
+        alert('Erro ao salvar agendamento.');
+    }
 }
 
-function obterEventosDoDia(dia, mes, ano) {
-    const eventos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
+async function obterEventosDoDia(dia, mes, ano) {
+    const eventos = await FirebaseService.getAgendamentos() || [];
     const dataString = `${ano}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
     return eventos.filter(e => e.data === dataString);
 }
@@ -1390,7 +1427,7 @@ function editarEvento(evento) {
         alert('Apenas coordenadores podem editar agendamentos.');
         return;
     }
-    
+
     eventoEditando = evento;
     document.getElementById('evento-data').value = evento.data;
     document.getElementById('evento-horario').value = evento.horario || '';
@@ -1399,32 +1436,26 @@ function editarEvento(evento) {
     document.getElementById('modal-agendamento').classList.add('active');
 }
 
-function removerEvento(eventoId) {
+async function removerEvento(eventoId) {
     if (perfilAtual !== 'coordenador') {
         alert('Apenas coordenadores podem remover agendamentos.');
         return;
     }
-    
-    const eventos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
-    const novosEventos = eventos.filter(e => e.id !== eventoId);
-    localStorage.setItem('agendamentos', JSON.stringify(novosEventos));
-    gerarCalendarioAnual();
-    
-    // Fechar painel e mostrar mensagem
-    fecharPainelEventos();
-    
-    // Recarregar eventos se o painel estava aberto
-    setTimeout(() => {
-        const eventoRemovido = eventos.find(e => e.id === eventoId);
-        if (eventoRemovido) {
-            const data = new Date(eventoRemovido.data);
-            verEventosDoDia(data.getDate(), data.getMonth(), data.getFullYear());
+
+    if (confirm('Deseja realmente remover este agendamento?')) {
+        const sucesso = await FirebaseService.deleteAgendamento(eventoId);
+        if (sucesso) {
+            gerarCalendarioAnual();
+            fecharPainelEventos();
+            // Sem refresh automatico do painel pois fechou-se
+        } else {
+            alert('Erro ao remover agendamento.');
         }
-    }, 300);
+    }
 }
 
-function verEventosDoDia(dia, mes, ano) {
-    const eventos = obterEventosDoDia(dia, mes, ano);
+async function verEventosDoDia(dia, mes, ano) {
+    const eventos = await obterEventosDoDia(dia, mes, ano);
     if (eventos.length === 0) {
         if (perfilAtual === 'coordenador') {
             abrirModalAgendamento(dia, mes, ano);
@@ -1440,14 +1471,14 @@ function mostrarPainelEventos(eventos, dia, mes, ano) {
     const panel = document.getElementById('eventos-panel');
     const overlay = document.getElementById('overlay-eventos');
     const content = document.getElementById('eventos-panel-content');
-    
+
     const dataFormatada = `${String(dia).padStart(2, '0')}/${String(mes + 1).padStart(2, '0')}/${ano}`;
-    
+
     content.innerHTML = `<div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-color);">
         <h4 style="color: var(--primary-color); margin: 0 0 0.5rem 0;">${dataFormatada}</h4>
         <p style="color: #666; margin: 0;">${eventos.length === 0 ? 'Nenhum agendamento para este dia' : `${eventos.length} agendamento(s)`}</p>
     </div>`;
-    
+
     if (eventos.length === 0) {
         if (perfilAtual === 'coordenador') {
             content.innerHTML += `
@@ -1461,18 +1492,18 @@ function mostrarPainelEventos(eventos, dia, mes, ano) {
         eventos.forEach(evento => {
             const div = document.createElement('div');
             div.className = 'evento-detalhe';
-            
+
             div.innerHTML = `
                 <div class="evento-data">${formatarData(evento.data)}</div>
                 <div class="evento-horario">🕐 ${evento.horario || 'Sem horário definido'}</div>
                 <div class="evento-titulo">${evento.titulo}</div>
                 ${evento.descricao ? `<div class="evento-descricao">${evento.descricao}</div>` : ''}
             `;
-            
+
             if (perfilAtual === 'coordenador') {
                 const acoesDiv = document.createElement('div');
                 acoesDiv.className = 'evento-acoes';
-                
+
                 const btnEdit = document.createElement('button');
                 btnEdit.className = 'btn-small btn-edit';
                 btnEdit.textContent = '✏️ Editar';
@@ -1480,7 +1511,7 @@ function mostrarPainelEventos(eventos, dia, mes, ano) {
                     fecharPainelEventos();
                     editarEvento(evento);
                 };
-                
+
                 const btnDelete = document.createElement('button');
                 btnDelete.className = 'btn-small btn-delete';
                 btnDelete.textContent = '🗑️ Remover';
@@ -1490,16 +1521,16 @@ function mostrarPainelEventos(eventos, dia, mes, ano) {
                         verEventosDoDia(dia, mes, ano);
                     }
                 };
-                
+
                 acoesDiv.appendChild(btnEdit);
                 acoesDiv.appendChild(btnDelete);
                 div.appendChild(acoesDiv);
             }
-            
+
             content.appendChild(div);
         });
     }
-    
+
     panel.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1520,9 +1551,9 @@ function abrirModalComentarios(contexto) {
     const modal = document.getElementById('modal-comentarios');
     carregarComentarios();
     modal.classList.add('active');
-    
+
     // Fechar ao clicar fora do modal
-    modal.onclick = function(e) {
+    modal.onclick = function (e) {
         if (e.target === modal) {
             fecharModalComentarios();
         }
@@ -1535,16 +1566,19 @@ function fecharModalComentarios() {
     document.getElementById('novo-comentario').value = '';
 }
 
-function carregarComentarios() {
+async function carregarComentarios() {
     const container = document.getElementById('comentarios-container');
-    const comentarios = JSON.parse(localStorage.getItem('comentarios') || '[]');
-    const comentariosFiltrados = comentarios.filter(c => c.contexto === comentarioContexto);
-    
-    if (comentariosFiltrados.length === 0) {
+    container.innerHTML = '<p class="info-text">Carregando...</p>';
+
+    const comentarios = await FirebaseService.getComentarios(comentarioContexto) || [];
+
+    if (comentarios.length === 0) {
         container.innerHTML = '<p class="info-text">Nenhum comentário ainda. Seja o primeiro a comentar!</p>';
     } else {
         container.innerHTML = '';
-        comentariosFiltrados.reverse().forEach(comentario => {
+        // Ordenar, mais recente primeiro
+        comentarios.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        comentarios.forEach(comentario => {
             const div = document.createElement('div');
             div.className = 'comentario-item';
             div.innerHTML = `
@@ -1559,32 +1593,33 @@ function carregarComentarios() {
     }
 }
 
-function adicionarComentario() {
+async function adicionarComentario() {
     const texto = document.getElementById('novo-comentario').value.trim();
     if (!texto) {
         alert('Por favor, digite um comentário.');
         return;
     }
-    
+
     if (!comentarioContexto) {
         alert('Erro: contexto não definido.');
         return;
     }
-    
+
     const comentario = {
-        id: Date.now(),
         contexto: comentarioContexto,
         texto: texto,
         autor: perfilAtual === 'professor' ? 'Professor' : 'Coordenador',
         timestamp: new Date().toISOString()
     };
-    
-    const comentarios = JSON.parse(localStorage.getItem('comentarios') || '[]');
-    comentarios.push(comentario);
-    localStorage.setItem('comentarios', JSON.stringify(comentarios));
-    
-    document.getElementById('novo-comentario').value = '';
-    carregarComentarios();
+
+    const sucesso = await FirebaseService.addComentario(comentario);
+
+    if (sucesso) {
+        document.getElementById('novo-comentario').value = '';
+        await carregarComentarios();
+    } else {
+        alert('Erro ao adicionar comentário.');
+    }
 }
 
 function formatarDataHora(isoString) {
