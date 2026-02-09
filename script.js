@@ -268,14 +268,19 @@ async function salvarDadosPessoais() {
 }
 
 async function salvarDadosPessoaisStorage(dados) {
-    const sucesso = await FirebaseService.saveDadosPessoais(dados);
-    if (sucesso) {
-        const inputFoto = document.getElementById('foto-coordenador');
-        if (inputFoto) inputFoto.value = '';
-        atualizarPerfilDisplay(dados);
-        alert('Dados pessoais salvos com sucesso!');
-    } else {
-        alert('Erro ao salvar dados pessoais via Firebase.');
+    try {
+        const sucesso = await FirebaseService.saveDadosPessoais(dados);
+        if (sucesso) {
+            const inputFoto = document.getElementById('foto-coordenador');
+            if (inputFoto) inputFoto.value = '';
+            atualizarPerfilDisplay(dados);
+            alert('Dados pessoais salvos com sucesso!');
+        } else {
+            alert('Erro ao salvar dados pessoais via Firebase. Verifique o console.');
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Erro TÉCNICO ao salvar dados pessoais: ' + e.message);
     }
 }
 
@@ -593,11 +598,16 @@ async function salvarPlannerMensal(mesIndex) {
         metas: document.getElementById('metas').value
     };
 
-    const sucesso = await FirebaseService.savePlannerMensal(mesIndex, dados);
-    if (sucesso) {
-        alert('Planner mensal salvo com sucesso!');
-    } else {
-        alert('Erro ao salvar planner mensal.');
+    try {
+        const sucesso = await FirebaseService.savePlannerMensal(mesIndex, dados);
+        if (sucesso) {
+            alert('Planner mensal salvo com sucesso!');
+        } else {
+            alert('Erro ao salvar planner mensal. Verifique o console.');
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Erro TÉCNICO ao salvar planner: ' + e.message);
     }
 }
 
@@ -1402,17 +1412,23 @@ async function salvarAgendamento() {
         sucesso = await FirebaseService.addAgendamento(evento);
     }
 
-    if (sucesso) {
-        fecharModalAgendamento();
-        gerarCalendarioAnual();
+    try {
+        if (sucesso) {
+            fecharModalAgendamento();
+            gerarCalendarioAnual();
 
-        // Mostrar o evento recém-criado no painel
-        const data = new Date(evento.data);
-        setTimeout(() => {
-            verEventosDoDia(data.getDate(), data.getMonth(), data.getFullYear());
-        }, 300);
-    } else {
-        alert('Erro ao salvar agendamento.');
+            // Mostrar o evento recém-criado no painel
+            const data = new Date(evento.data);
+            setTimeout(() => {
+                verEventosDoDia(data.getDate(), data.getMonth(), data.getFullYear());
+            }, 300);
+            alert('Agendamento salvo com sucesso!');
+        } else {
+            alert('Erro ao salvar agendamento. Verifique se você tem permissão.');
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Erro TÉCNICO ao salvar agendamento: ' + e.message);
     }
 }
 

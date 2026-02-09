@@ -46,6 +46,7 @@ export const FirebaseService = {
             return true;
         } catch (error) {
             console.error("Erro ao salvar dados pessoais:", error);
+            alert("Erro Firebase: " + error.message);
             return false;
         }
     },
