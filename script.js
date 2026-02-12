@@ -753,7 +753,7 @@ async function salvarAcompanhamentoAluno() {
     const turma = document.getElementById('aluno-turma').value;
     const motivo = document.getElementById('motivo-observacao').value;
     const acoes = document.getElementById('acoes-tomadas').value;
-    const data = document.getElementById('data-ocorrencia').value;
+    const data = document.getElementById('data-acompanhamento').value;
 
     if (!aluno || !turma || !motivo || !data) {
         alert('Por favor, preencha todos os campos obrigatórios.');
@@ -778,7 +778,7 @@ async function salvarAcompanhamentoAluno() {
         document.getElementById('motivo-observacao').value = '';
         document.getElementById('acoes-tomadas').value = '';
         document.getElementById('proximos-passos').value = '';
-        document.getElementById('data-ocorrencia').value = '';
+        document.getElementById('data-acompanhamento').value = '';
 
         await carregarAcompanhamentos();
         alert('Acompanhamento salvo com sucesso!');

@@ -1,0 +1,2 @@
+o calendario esta cadastrando corretamente, mas não é exibido nada, nem imagem para destacar que tem algo cadastrado naquela data
+os aniversario não salvam, recarregando a pagina somem até para o coordenador

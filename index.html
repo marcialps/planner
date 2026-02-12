@@ -223,23 +223,24 @@
                             <label for="aluno-turma">Turma:</label>
                             <input type="text" id="aluno-turma" placeholder="Ex: 5º Ano A">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group full-width">
                             <label for="motivo-observacao">Motivo da Observação:</label>
                             <textarea id="motivo-observacao" rows="3"
                                 placeholder="Descreva o motivo do acompanhamento"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group full-width">
                             <label for="acoes-tomadas">Ações Tomadas:</label>
                             <textarea id="acoes-tomadas" rows="3"
                                 placeholder="Registre as ações já realizadas"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group full-width">
                             <label for="proximos-passos">Próximos Passos:</label>
                             <textarea id="proximos-passos" rows="3" placeholder="O que será feito a seguir"></textarea>
                         </div>
                     </div>
-                    <button class="btn-primary coord-only" onclick="salvarAcompanhamentoAluno()">Salvar
-                        Acompanhamento</button>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="btn-primary" onclick="salvarAcompanhamentoAluno()">Salvar Acompanhamento</button>
+                    </div>
                 </div>
                 <div id="lista-acompanhamentos" class="acompanhamentos-lista"></div>
             </section>
